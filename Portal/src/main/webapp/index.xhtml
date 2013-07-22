@@ -1,0 +1,67 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/baseTemplate.xhtml">
+	<ui:define name="head_content">
+		<script type="text/javascript"
+			src="${AppBean.resourcePath}/js/slider/coin-slider.min.js"></script>
+	</ui:define>
+	<ui:define name="main_content">
+		<div id="wrap">
+			<div class="main_content_top">
+				<h1>Activity Show</h1>
+				<div id='coin-slider'>
+					<a href="page.jsf" target="_blank"> <h:graphicImage
+							library="images" name="slider-image1.jpg"></h:graphicImage>
+						<span>See this is the first champion as a test.</span>
+					</a> <a href="page.jsf" target="_blank"> <h:graphicImage
+							library="images" name="slider-image2.jpg"></h:graphicImage><span>See
+							this is the first champion as a test.</span>
+					</a> <a href="page.jsf" target="_blank"> <h:graphicImage
+							library="images" name="slider-image3.jpg"></h:graphicImage>
+						<span>See this is the first champion as a test.</span>
+					</a>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="main_content">
+				<div class="section_one_three">
+					<div class='section_wrapper'>
+						<img alt="Career"
+							src="${AppBean.resourcePath}/images/career.png" />
+					</div>
+					<h2 class="centered_title">Career</h2>
+					<p class="centered_text">My career, technical,
+						management, self build up and etc.</p>
+				</div>
+				<div class="section_one_three">
+					<div class='section_wrapper'>
+						<img alt="Life"
+							src="${AppBean.resourcePath}/images/life.png" />
+					</div>
+					<h2 class="centered_title">Life</h2>
+					<p class="centered_text">Life related, traveling,
+						reading, films, entertainment and etc.</p>
+				</div>
+				<div class="section_one_three">
+					<div class='section_wrapper'>
+						<img alt="Contact"
+							src="${AppBean.resourcePath}/images/contact.png" />
+					</div>
+					<h2 class="centered_title">Contact</h2>
+					<p class="centered_text">Contact me through email,
+						sina weibo, qq and etc.</p>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$('#coin-slider').coinslider({
+					width : 880,
+					height : 320
+				});
+			});
+		</script>
+	</ui:define>
+</ui:composition>
