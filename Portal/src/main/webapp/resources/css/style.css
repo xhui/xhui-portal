@@ -42,9 +42,14 @@ h1, h2, h3, h4{font-family: 'Source Sans Pro', sans-serif;}
 .section_wrapper{text-align: center; padding: 0 40px;}
 .section_wrapper img {height: 200px; }
 
-/* Icon Menu */
-.section_one_three{ width:280px; float:left; padding:15px 20px 0 30px;}
+/* STRUCTURE */
+.section_full {padding:40px 40px 0 40px; float:left;}
+.section_one_two{ width:440px; float:left; padding:40px 0 0 40px;}
+.section_one_three{ width:280px; float:left; padding:40px 0 0 40px;}
+.section_one_four{ width:200px; float:left; padding:40px 0 0 40px;}
+.section_two_three{ width:600px; float:left; padding:40px 0 0 40px;}
 .main_content img {max-width: 100%; display: block;}
+
 h2.centered_title{ text-align:center;}
 p.centered_text{ padding:10px 20px;}
 

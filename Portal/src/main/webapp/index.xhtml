@@ -5,6 +5,8 @@
 	<ui:define name="head_content">
 		<script type="text/javascript"
 			src="#{appBean.resourcePath}/js/slider/coin-slider.min.js"></script>
+		<script type="text/javascript"
+			src="#{appBean.resourcePath}/js/indexPage.js"></script>
 	</ui:define>
 	<ui:define name="main_content">
 		<div id="wrap">
@@ -13,16 +15,15 @@
 				<div id='coin-slider'>
 					<ui:repeat value="#{recentActivityBean.activities}"
 						var="activity">
-						<a href="#{activity.linkUrl}" target="_blank">
-							<img src="#{activity.imgUrl}" />
-							<span>#{activity.desc}</span>
+						<a href="#{activity.linkUrl}" target="_blank"> <img
+							src="#{activity.imgUrl}" /> <span>#{activity.desc}</span>
 						</a>
 					</ui:repeat>
 				</div>
 				<div class="clear"></div>
 			</div>
 			<div class="main_content">
-				<div class="section_one_three">
+				<div id="nav_icon_career" class="section_one_three">
 					<div class='section_wrapper'>
 						<img alt="Career"
 							src="#{appBean.resourcePath}/images/career.png" />
@@ -31,7 +32,7 @@
 					<p class="centered_text">My career, technical,
 						management, self build up and etc.</p>
 				</div>
-				<div class="section_one_three">
+				<div id="nav_icon_life" class="section_one_three">
 					<div class='section_wrapper'>
 						<img alt="Life"
 							src="#{appBean.resourcePath}/images/life.png" />
@@ -40,7 +41,7 @@
 					<p class="centered_text">Life related, traveling,
 						reading, films, entertainment and etc.</p>
 				</div>
-				<div class="section_one_three">
+				<div id="nav_icon_contact" class="section_one_three">
 					<div class='section_wrapper'>
 						<img alt="Contact"
 							src="#{appBean.resourcePath}/images/contact.png" />
@@ -52,13 +53,5 @@
 				<div class="clear"></div>
 			</div>
 		</div>
-		<script type="text/javascript">
-			$(document).ready(function() {
-				$('#coin-slider').coinslider({
-					width : 880,
-					height : 320
-				});
-			});
-		</script>
 	</ui:define>
 </ui:composition>

@@ -1,15 +1,25 @@
-<div id="header">
-	<div class="header_content">
-		<div class="logo">
-			<a href="index.jsf">Leading The Wind</a>
-		</div>
-		<div class="menu">
-			<ul>
-				<li class="selected"><a href="index.jsf">Home</a></li>
-				<li><a href="page.jsf">Life</a></li>
-				<li><a href="page.jsf">Career</a></li>
-				<li><a href="page.jsf">Contact</a></li>
-			</ul>
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<div id="header">
+		<div class="header_content">
+			<h:form id='gbNav'>
+				<div class="logo">
+					<h:commandLink action="globalNav_home">Leading The Wind</h:commandLink>
+				</div>
+				<div class="menu">
+					<ul>
+						<li class="selected"><h:commandLink id="home"
+								action="globalNav_home">Home</h:commandLink></li>
+						<li><h:commandLink id="life"
+								action="globalNav_life">Life</h:commandLink></li>
+						<li><h:commandLink id="career"
+								action="globalNav_career">Career</h:commandLink></li>
+						<li><h:commandLink id="contact"
+								action="globalNav_contact">Contact</h:commandLink></li>
+					</ul>
+				</div>
+			</h:form>
 		</div>
 	</div>
-</div>
+</ui:component>
