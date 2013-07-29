@@ -6,25 +6,4 @@
 	<application>
 		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
 	</application>
-	<navigation-rule>
-		<navigation-case>
-			<from-outcome>globalNav_home</from-outcome>
-			<to-view-id>/index.xhtml</to-view-id>
-		</navigation-case>
-		<navigation-case>
-			<from-outcome>globalNav_life</from-outcome>
-			<to-view-id>/life.xhtml</to-view-id>
-			<redirect>
-				<redirect-param></redirect-param>
-			</redirect>
-		</navigation-case>
-		<navigation-case>
-			<from-outcome>globalNav_career</from-outcome>
-			<to-view-id>/career.xhtml</to-view-id>
-		</navigation-case>
-		<navigation-case>
-			<from-outcome>globalNav_contact</from-outcome>
-			<to-view-id>/contact.xhtml</to-view-id>
-		</navigation-case>
-	</navigation-rule>
 </faces-config>

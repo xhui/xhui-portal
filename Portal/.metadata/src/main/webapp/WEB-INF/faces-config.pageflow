@@ -1,12 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf13744752950160" configfile="/Portal/src/main/webapp/WEB-INF/faces-config.xml">
-  <nodes xsi:type="pageflow:PFPage" name="*" x="60" y="276" id="pf13746530390840" outlinks="pf13746557279953 pf13746557279954 pf13746557279955 pf13746557279956" path="*"/>
-  <nodes xsi:type="pageflow:PFPage" name="index.jsf" id="pf13746557279957" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf13746557279953" path="/index.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="life.jsf" id="pf13746557279958" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" inlinks="pf13746557279954" path="/life.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="career.jsf" id="pf13746557279959" referenceLink="//@navigationRule.0/@navigationCase.2/@toViewId|" inlinks="pf13746557279955" path="/career.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="contact.jsf" id="pf137465572799510" referenceLink="//@navigationRule.0/@navigationCase.3/@toViewId|" inlinks="pf13746557279956" path="/contact.xhtml"/>
-  <links id="pf13746557279953" target="pf13746557279957" source="pf13746530390840" outcome="globalNav_home"/>
-  <links id="pf13746557279954" target="pf13746557279958" source="pf13746530390840" outcome="globalNav_life" redirect="true"/>
-  <links id="pf13746557279955" target="pf13746557279959" source="pf13746530390840" outcome="globalNav_career"/>
-  <links id="pf13746557279956" target="pf137465572799510" source="pf13746530390840" outcome="globalNav_contact"/>
-</pageflow:Pageflow>
+<pageflow:Pageflow xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf13744752950160" configfile="/Portal/src/main/webapp/WEB-INF/faces-config.xml"/>

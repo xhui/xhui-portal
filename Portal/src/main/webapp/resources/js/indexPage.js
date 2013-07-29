@@ -15,13 +15,7 @@ $(document).ready(function() {
 	});
 
 	// prepare navigation
-	$("#nav_icon_career").on("click", function(event) {
-		$("#gbNav\\:career").trigger("click");
-	});
-	$("#nav_icon_life").on("click", function(event) {
-		$("#gbNav\\:life").trigger("click");
-	});
-	$("#nav_icon_contact").on("click", function(event) {
-		$("#gbNav\\:contact").trigger("click");
-	});
+	$("#nav_icon_life").on("click", $.NAV.jumpToLife);
+	$("#nav_icon_career").on("click", $.NAV.jumpToCareer);
+	$("#nav_icon_contact").on("click", $.NAV.jumpToContact);
 });

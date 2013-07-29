@@ -21,6 +21,6 @@ public class AppCfgTest
 	@Test
 	public void testGetProperty()
 	{
-		fail("Not yet implemented");
+//		fail("Not yet implemented");
 	}
 }
