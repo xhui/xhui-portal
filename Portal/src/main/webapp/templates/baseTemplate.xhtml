@@ -5,8 +5,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:head>
-	<meta http-equiv="Content-Type"
-		content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport"
 		content="width=device-width, initial-scale=1, maximum-scale=1" />
 	<meta name="keywords"
@@ -16,8 +15,7 @@
 		href='#{appBean.resourcePath}/css/style.css' media='all' />
 	<link rel='stylesheet' type='text/css'
 		href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' />
-	<script type="text/javascript"
-		src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<h:outputScript library="primefaces" name="jquery/jquery.js" />
 	<script type="text/javascript"
 		src="#{appBean.resourcePath}/js/global.js"></script>
 	<ui:insert name="head_content" />

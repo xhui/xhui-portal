@@ -1,10 +1,9 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
 	template="/templates/baseTemplate.xhtml">
 	<ui:define name="head_content">
-		<script type="text/javascript"
-			src="#{appBean.resourcePath}/js/slider/coin-slider.min.js"></script>
 		<script type="text/javascript"
 			src="#{appBean.resourcePath}/js/indexPage.js"></script>
 	</ui:define>
@@ -12,15 +11,15 @@
 		<div id="wrap">
 			<div class="main_content_top">
 				<h1>Activity Show</h1>
-				<div id='coin-slider'>
-					<ui:repeat value="#{recentActivityBean.activities}" var="activity">
-						<a href="#{activity.linkUrl}" target="_blank">
-							<img src="#{activity.imgUrl}" />
-							<span>#{activity.desc}</span>
-						</a>
-					</ui:repeat>
+				<div class='slider'>
+					<p:galleria value="#{recentActivityBean.activities}" var="activity"
+						effect="slide" transitionInterval="2000" showCaptions="true"
+						panelWidth="885">
+						<p:graphicImage value="#{activity.imgUrl}" alt="#{activity.desc}"
+							title="#{activity.desc}" />
+					</p:galleria>
+					<div class="clear"></div>
 				</div>
-				<div class="clear"></div>
 			</div>
 			<div class="main_content">
 				<div id="nav_icon_life" class="section_one_three">
