@@ -13,10 +13,10 @@
 			<div class="main_content_top">
 				<h1>Activity Show</h1>
 				<div id='coin-slider'>
-					<ui:repeat value="#{recentActivityBean.activities}"
-						var="activity">
-						<a href="#{activity.linkUrl}" target="_blank"> <img
-							src="#{activity.imgUrl}" /> <span>#{activity.desc}</span>
+					<ui:repeat value="#{recentActivityBean.activities}" var="activity">
+						<a href="#{activity.linkUrl}" target="_blank">
+							<img src="#{activity.imgUrl}" />
+							<span>#{activity.desc}</span>
 						</a>
 					</ui:repeat>
 				</div>
@@ -25,30 +25,28 @@
 			<div class="main_content">
 				<div id="nav_icon_life" class="section_one_three">
 					<div class='section_wrapper'>
-						<img alt="Life"
-							src="#{appBean.resourcePath}/images/life.png" />
+						<img alt="Life" src="#{appBean.resourcePath}/images/life.png" />
 					</div>
 					<h2 class="centered_title">Life</h2>
-					<p class="centered_text">Life related, traveling,
-						reading, films, entertainment and etc.</p>
+					<p class="centered_text">Life related, traveling, reading,
+						films, entertainment and etc.</p>
 				</div>
 				<div id="nav_icon_career" class="section_one_three">
 					<div class='section_wrapper'>
-						<img alt="Career"
-							src="#{appBean.resourcePath}/images/career.png" />
+						<img alt="Career" src="#{appBean.resourcePath}/images/career.png" />
 					</div>
 					<h2 class="centered_title">Career</h2>
-					<p class="centered_text">My career, technical,
-						management, self build up and etc.</p>
+					<p class="centered_text">My career, technical, management, self
+						build up and etc.</p>
 				</div>
 				<div id="nav_icon_contact" class="section_one_three">
 					<div class='section_wrapper'>
-						<img alt="Contact"
-							src="#{appBean.resourcePath}/images/contact.png" />
+						<img src="#{appBean.resourcePath}/images/contact.png"
+							alt="Contact" />
 					</div>
 					<h2 class="centered_title">Contact</h2>
-					<p class="centered_text">Contact me through email,
-						sina weibo, qq and etc.</p>
+					<p class="centered_text">Contact me through email, sina weibo,
+						qq and etc.</p>
 				</div>
 				<div class="clear"></div>
 			</div>
