@@ -3,55 +3,58 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	template="/templates/baseTemplate.xhtml">
 	<ui:define name="head_content">
-		<link rel='stylesheet' type='text/css'
-			href="#{appBean.resourcePath}/css/bjqs.css" />
-		<script type="text/javascript"
-			src="#{appBean.resourcePath}/js/bjqs-1.3.min.js"></script>
 		<script type="text/javascript"
 			src="#{appBean.resourcePath}/js/indexPage.js"></script>
 	</ui:define>
+	<ui:define name="main_header">
+		<ui:include src="templates/header.xhtml">
+			<ui:param name="generalHeaderStyle" value="" />
+		</ui:include>
+	</ui:define>
 	<ui:define name="main_content">
-		<div id="wrap">
-			<div class="main_content_top">
-				<h1>Activity Show</h1>
-				<div id="main_slider">
-					<ul class="bjqs">
-						<ui:repeat var='activity' value="#{recentActivityBean.activities}">
-							<li><a href="#{activity.imgUrl}" target="_blank"> <img
-									src="#{activity.imgUrl}" title="#{activity.desc}" />
-							</a></li>
-						</ui:repeat>
-					</ul>
-				</div>
-				<div class="clear"></div>
+		<div class="wrap-body">
+			<div class='day-tip'>
+				<h1>Leading the wind, directing your heart.</h1>
 			</div>
-			<div class="main_content">
-				<div id="nav_icon_life" class="section_one_three">
-					<div class='section_wrapper'>
-						<img alt="Life" src="#{appBean.resourcePath}/images/life.png" />
+			<div class="feature-content">
+				<div class="feature-content-inner">
+					<div class="image-box">
+						<img src="#{appBean.resourcePath}/images/1.jpg" /><a href=""></a>
 					</div>
-					<h2 class="centered_title">Life</h2>
-					<p class="centered_text">Life related, traveling, reading,
-						films, entertainment and etc.</p>
-				</div>
-				<div id="nav_icon_career" class="section_one_three">
-					<div class='section_wrapper'>
-						<img alt="Career" src="#{appBean.resourcePath}/images/career.png" />
+					<div class="feature-content-text">
+						<h3>Life</h3>
+						<p>Life related, traveling, reading, films, entertainment and
+							etc.</p>
+						<div class='read-more-wrapper'>
+							<a id="nav_icon_life" class="read-more" href="#">Enter</a>
+						</div>
 					</div>
-					<h2 class="centered_title">Career</h2>
-					<p class="centered_text">My career, technical, management, self
-						build up and etc.</p>
 				</div>
-				<div id="nav_icon_contact" class="section_one_three">
-					<div class='section_wrapper'>
-						<img src="#{appBean.resourcePath}/images/contact.png"
-							alt="Contact" />
+				<div class="feature-content-inner">
+					<div class="image-box">
+						<img src="#{appBean.resourcePath}/images/2.jpg" /><a href=""></a>
 					</div>
-					<h2 class="centered_title">Contact</h2>
-					<p class="centered_text">Contact me through email, sina weibo,
-						qq and etc.</p>
+					<div class="feature-content-text">
+						<h3>Career</h3>
+						<p>My career, technical, management, self build up and etc.</p>
+						<div class='read-more-wrapper'>
+							<a id="nav_icon_career" class="read-more" href="#">Enter</a>
+						</div>
+					</div>
 				</div>
-				<div class="clear"></div>
+				<div class="feature-content-inner">
+					<div class="image-box">
+						<img src="#{appBean.resourcePath}/images/3.jpg" /><a href=""></a>
+					</div>
+					<div class="feature-content-text">
+						<h3>Contact Me</h3>
+						<p>Contact me through email, sina weibo, qq, linkedin and etc.</p>
+						<div class='read-more-wrapper'>
+							<a id="nav_icon_contact" class="read-more" href="#">Enter</a>
+						</div>
+					</div>
+				</div>
+				<div class='clear'></div>
 			</div>
 		</div>
 	</ui:define>

@@ -1,22 +1,20 @@
 <ui:component xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
-	<div id="header">
-		<div class="header_content">
-			<h:form id='gbNav'>
-				<div class="logo">
-					<a id="hd_index" href="javascript:void(0);">Leading
-						The Wind</a>
-				</div>
-				<div class="menu">
-					<ul>
-						<li><a id="hd_home" href="javascript:void(0);">Home</a></li>
-						<li><a id="hd_life" href="javascript:void(0);">Life</a></li>
-						<li><a id="hd_career" href="javascript:void(0);">Career</a></li>
-						<li><a id="hd_contact" href="javascript:void(0);">Contact</a></li>
-					</ul>
-				</div>
-			</h:form>
+	<div class="wrap-top">
+		<div class="nav-wrapper">
+			<h1>Leading The Wind</h1>
+			<div class="menu-wrapper">
+				<ul class="menu-item">
+					<li class="current_page_item"><a id="hd_home" href="#">Home</a></li>
+					<li><a id="hd_life" href="javascript:void(0);">Life</a></li>
+					<li><a id="hd_career" href="javascript:void(0);">Career</a></li>
+					<li><a id="hd_contact" href="javascript:void(0);">Contact</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class='slider-wrapper #{generalHeaderStyle}'>
+			<img src="#{appBean.resourcePath}/images/slider1.jpg" width="960" />
 		</div>
 	</div>
 </ui:component>
