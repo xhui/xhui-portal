@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/generalPageTemplate.xhtml">
+	<ui:define name="left_nav_content">
+		<h:form id="lifeMenuForm">
+			<p:tieredMenu>
+				<p:menuitem value="Index" />
+				<p:separator />
+				<p:submenu label="Reading">
+					<p:menuitem value="Books" />
+					<p:menuitem value="Magezines" />
+				</p:submenu>
+				<p:menuitem value="Traveling" />
+				<p:separator />
+				<p:menuitem value="Films" />
+				<p:menuitem value="Music" />
+				<p:menuitem value="Entertainment" />
+				<p:separator />
+				<p:menuitem value="Sports" />
+				<p:menuitem value="Games" />
+				<p:separator />
+				<p:menuitem value="Uncategoried" />
+			</p:tieredMenu>
+		</h:form>
+	</ui:define>
+</ui:composition>
