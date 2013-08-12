@@ -12,7 +12,7 @@ body {
 }
 
 p {
-	padding: 0;
+	padding: 5px 0;
 	margin: 0;
 	text-align: left;
 	line-height: 20px
@@ -30,28 +30,23 @@ a:hover {
 	text-decoration: none
 }
 
-h1 {
+h1,h2,h3 {
 	font-weight: bolder;
 	color: #252525;
-	font-size: 36px;
 	margin: 0;
 	padding: 0
+}
+
+h1 {
+	font-size: 36px;
 }
 
 h2 {
-	font-weight: bolder;
-	color: #252525;
 	font-size: 21px;
-	margin: 0;
-	padding: 0
 }
 
 h3 {
-	font-weight: bolder;
-	color: #252525;
 	font-size: 18px;
-	margin: 0;
-	padding: 0
 }
 /* Structure */
 #wrapper {
@@ -70,12 +65,12 @@ h3 {
 
 .g-wrapper-left {
 	float: left;
-	width: 20%
+	width: 22%
 }
 
 .g-wrapper-right {
 	float: right;
-	width: 80%
+	width: 75%
 }
 
 /* Footer */
@@ -175,7 +170,6 @@ h3 {
 }
 
 .day-tip h1 {
-	font-size: 36px;
 	padding-bottom: 30px;
 	font-family: cursive
 }
@@ -224,4 +218,12 @@ h3 {
 
 .sub-menu>a:FIRST-CHILD .ui-menuitem-text,.sub-menu>span:FIRST-CHILD {
 	padding-left: 20px
+}
+
+.ui-menu {
+	width: 99%;
+}
+
+.ui-menuitem-text {
+	font-family: Arial, Helvetica, sans-serif;
 }
