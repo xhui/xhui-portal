@@ -1,15 +1,39 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sec="http://www.springframework.org/schema/security"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/security 
+	http://www.springframework.org/schema/security/spring-security.xsd
 	http://www.springframework.org/schema/context 
-	http://www.springframework.org/schema/context/spring-context-3.2.xsd
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd
 	http://www.springframework.org/schema/util 
 	http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+	<sec:http use-expressions="true">
+		<sec:intercept-url pattern="/**" access="hasRole('supervisor')" />
+		<sec:form-login />
+		<sec:logout logout-success-url="/loggedout.jsp"
+			delete-cookies="JSESSIONID" />
+		<sec:remember-me />
+		<sec:session-management invalid-session-url="/timeout.jsp">
+			<sec:concurrency-control max-sessions="1"
+				error-if-maximum-exceeded="true" />
+		</sec:session-management>
+	</sec:http>
+
+	<sec:authentication-manager>
+		<sec:authentication-provider>
+			<sec:user-service>
+				<sec:user name="rod" password="test" authorities="supervisor, user, teller" />
+			</sec:user-service>
+		</sec:authentication-provider>
+	</sec:authentication-manager>
 
 	<util:properties id="appProperties" location="classpath:app.properties"
 		scope="singleton" />
 
 	<context:component-scan base-package="com.zan.portal" />
+
 </beans>
