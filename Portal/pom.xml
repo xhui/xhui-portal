@@ -61,6 +61,13 @@
 			<version>${spring.security.version}</version>
 		</dependency>
 
+		<!-- SQL -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.26</version>
+		</dependency>
+
 		<!-- Common -->
 		<dependency>
 			<groupId>javax.inject</groupId>

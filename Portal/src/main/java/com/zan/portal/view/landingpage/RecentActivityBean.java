@@ -26,25 +26,6 @@ public class RecentActivityBean implements Serializable {
 	@PostConstruct
 	private void init() {
 		activities = new ArrayList<RecentActivity>();
-
-		String imgUrlPrefix = appBean.getResourcePath() + "/images/";
-		RecentActivity act = new RecentActivity();
-		act.setImgUrl("http://farm3.staticflickr.com/2832/9395296803_eb3ba90a5a_z.jpg");
-		act.setDesc("This is a test 1.");
-		act.setLinkUrl("#");
-		activities.add(act);
-
-		act = new RecentActivity();
-		act.setImgUrl("http://farm3.staticflickr.com/2836/9398047998_93151bdbdb_z.jpg");
-		act.setDesc("This is a test 2.");
-		act.setLinkUrl("#");
-		activities.add(act);
-
-		act = new RecentActivity();
-		act.setImgUrl("http://farm8.staticflickr.com/7402/9395282679_984948d129_z.jpg");
-		act.setDesc("This is a test 3.");
-		act.setLinkUrl("#");
-		activities.add(act);
 	}
 
 	public List<RecentActivity> getActivities() {

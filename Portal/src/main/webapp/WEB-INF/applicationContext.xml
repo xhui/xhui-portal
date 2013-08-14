@@ -12,21 +12,19 @@
 	http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
 	<sec:http use-expressions="true">
-		<sec:intercept-url pattern="/**" access="hasRole('supervisor')" />
+		<sec:intercept-url pattern="/admin/**" access="hasRole('admin')" />
 		<sec:form-login />
-		<sec:logout logout-success-url="/loggedout.jsp"
-			delete-cookies="JSESSIONID" />
+		<sec:logout logout-success-url="/" delete-cookies="JSESSIONID" />
 		<sec:remember-me />
-		<sec:session-management invalid-session-url="/timeout.jsp">
-			<sec:concurrency-control max-sessions="1"
-				error-if-maximum-exceeded="true" />
+		<sec:session-management invalid-session-url="/">
+			<sec:concurrency-control max-sessions="1" />
 		</sec:session-management>
 	</sec:http>
 
 	<sec:authentication-manager>
 		<sec:authentication-provider>
 			<sec:user-service>
-				<sec:user name="rod" password="test" authorities="supervisor, user, teller" />
+				<sec:user name="max" password="youridea" authorities="admin" />
 			</sec:user-service>
 		</sec:authentication-provider>
 	</sec:authentication-manager>
@@ -35,5 +33,13 @@
 		scope="singleton" />
 
 	<context:component-scan base-package="com.zan.portal" />
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://127.0.0.1:3306/portal" />
+		<property name="username" value="root" />
+		<property name="password" value="" />
+	</bean>
 
 </beans>
