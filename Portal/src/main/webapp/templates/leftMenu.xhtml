@@ -1,0 +1,22 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<c:forEach items="#{category.subCategories}" var="category">
+		<c:choose>
+			<c:when test="#{category.containSubCategories}">
+				<p:submenu label="#{category.name}"
+					styleClass="#{isFirstLevel == 'true'?'sub-menu':' '}">
+					<ui:include src="leftMenu.xhtml">
+						<ui:param name="isFirstLevel" value=""></ui:param>
+					</ui:include>
+				</p:submenu>
+			</c:when>
+			<c:otherwise>
+				<p:menuitem value="#{category.name}"
+					styleClass="#{isFirstLevel == 'true'?'sub-menu':' '}" />
+			</c:otherwise>
+		</c:choose>
+	</c:forEach>
+</ui:composition>
