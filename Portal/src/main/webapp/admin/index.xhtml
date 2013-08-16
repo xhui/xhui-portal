@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<meta name="keywords"
+		content="Max Portal technical life leading the wind" />
+	<title>Leading The Wind</title>
+	<link rel='stylesheet' type='text/css'
+		href='#{appBean.resourcePath}/css/style.css' media='all' />
+	<h:outputScript library="primefaces" name="jquery/jquery.js" />
+	<script type="text/javascript"
+		src="#{appBean.resourcePath}/js/global.js"></script>
+	<ui:insert name="head_content" />
+</h:head>
+
+<h:body>
+	<div id="wrapper">
+		<div class="header-wrapper"></div>
+		<div class="main-wrapper">
+			<p:panel menuTitle="Manage Categories" header="Manage Categories">
+				<h:form id="mngCtgForm">
+					<p:tree id="ctgTree" value="#{manageCategoriesBean.root}"
+						var="node" orientation="horizontal">
+						<p:treeNode id="treeNode">
+							<h:outputText value="#{node}" id="lblNode" />
+							<h:inputHidden value=""></h:inputHidden>
+						</p:treeNode>
+					</p:tree>
+
+					<p:contextMenu for="ctgTree">
+						<p:menuitem value="Add Child" onclick="manageCategories.show()" />
+						<p:menuitem value="Update" />
+						<p:menuitem value="Delete" />
+					</p:contextMenu>
+				</h:form>
+
+			</p:panel>
+			<p:dialog modal="true" widgetVar="manageCategories"
+				header="Manage Categories">
+				<p:panelGrid columns="2">
+					<h:outputLabel for="cName" value="Name:"></h:outputLabel>
+					<h:inputText id="cName" required="true" value=""></h:inputText>
+					<h:outputLabel for="cParent" value="Parent Category:"></h:outputLabel>
+					<h:inputText id="cParent" required="true" value=""></h:inputText>
+				</p:panelGrid>
+				<br />
+				<p:commandButton value="Save" />
+				<p:commandButton value="Cancel" onclick="manageCategories.hide()" />
+			</p:dialog>
+		</div>
+		<div class="footer-wrapper"></div>
+	</div>
+</h:body>
+</html>

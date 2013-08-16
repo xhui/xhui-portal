@@ -22,52 +22,72 @@ import com.zan.portal.model.Category;
 @Scope("prototype")
 public class CategorieQueryDAO {
 
+	private static final String SQL = "select category_id, category_name, parent_category_id from doc_categories where page_id = ? order by parent_category_id ASC, category_name ASC";
+
 	private JdbcTemplate jdbc;
-	private static final String SQL = "select category_id, category_name, parent_category_id from doc_categories where page_id = ? order by parent_category_id ASC";
 
 	@Autowired
 	public CategorieQueryDAO(DataSource dataSource) {
 		jdbc = new JdbcTemplate(dataSource);
 	}
 
-	public List<Category> query(final int pageId) {
+	public List<Category> query(int pageId) {
 		return jdbc.query(SQL, new Object[] { pageId },
-				new ResultSetExtractor<List<Category>>() {
-					@Override
-					public List<Category> extractData(ResultSet rs)
-							throws SQLException, DataAccessException {
-						List<Category> categories = new ArrayList<Category>();
-						if (rs != null) {
-							Map<Integer, Category> categoryCache = new HashMap<Integer, Category>();
-							while (rs.next()) {
-								int categoryId = rs.getInt("category_id");
-								// get category instance from cache.
-								Category c = categoryCache.get(categoryId);
-								if (c == null) {
-									c = new Category();
-									c.setCategoryId(categoryId);
-									c.setName(rs.getString("category_name"));
-									c.setPageId(pageId);
-									categoryCache.put(categoryId, c);
-								}
-								int parentId = rs.getInt("parent_category_id");
-								if (parentId == 0) {
-									// this is root node.
-									categories.add(c);
-								} else {
-									// this is child node.
-									Category parent = categoryCache
-											.get(parentId);
-									// should not be null, but if not find,
-									// ignore that.
-									if (parent != null) {
-										parent.addSubCategories(c);
-									}
-								}
-							}
-						}
-						return categories;
-					}
-				});
+				new CategoryResultSetExtractor(pageId));
+	}
+
+	private static class CategoryResultSetExtractor implements
+			ResultSetExtractor<List<Category>> {
+		private ResultSet rs;
+		private int pageId;
+		private Map<Integer, Category> categoryCache;
+		private List<Category> categories;
+
+		private CategoryResultSetExtractor(int pageId) {
+			this.categoryCache = new HashMap<Integer, Category>();
+			this.categories = new ArrayList<Category>();
+			this.pageId = pageId;
+		}
+
+		@Override
+		public List<Category> extractData(ResultSet rs) throws SQLException,
+				DataAccessException {
+			this.rs = rs;
+			if (rs != null) {
+				while (rs.next()) {
+					buildCategoryTree(buildCategory());
+				}
+			}
+			return categories;
+		}
+
+		private Category buildCategory() throws SQLException {
+			int categoryId = rs.getInt("category_id");
+			// get category instance from cache.
+			Category c = categoryCache.get(categoryId);
+			if (c == null) {
+				c = new Category();
+				c.setCategoryId(categoryId);
+				c.setName(rs.getString("category_name"));
+				c.setPageId(pageId);
+				categoryCache.put(categoryId, c);
+			}
+			return c;
+		}
+
+		private void buildCategoryTree(Category c) throws SQLException {
+			int parentId = rs.getInt("parent_category_id");
+			if (parentId == 0) {
+				// this is root node.
+				categories.add(c);
+			} else {
+				// this is child node.
+				Category parent = categoryCache.get(parentId);
+				// should not be null, but if not find, ignore that.
+				if (parent != null) {
+					parent.addSubCategories(c);
+				}
+			}
+		}
 	}
 }
