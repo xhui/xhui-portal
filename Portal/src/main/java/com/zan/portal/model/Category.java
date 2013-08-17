@@ -1,9 +1,11 @@
 package com.zan.portal.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Category {
+public class Category implements Serializable {
+	private static final long serialVersionUID = 4227008286989552876L;
 	private int pageId;
 	private int categoryId;
 	private String name;
@@ -43,6 +45,10 @@ public class Category {
 
 	public void addSubCategories(Category c) {
 		subCategories.add(c);
+	}
+
+	public void addAllSubCategories(List<Category> c) {
+		subCategories.addAll(c);
 	}
 
 	public boolean isContainSubCategories() {

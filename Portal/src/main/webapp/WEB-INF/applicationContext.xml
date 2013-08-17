@@ -11,6 +11,16 @@
 	http://www.springframework.org/schema/util 
 	http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
+	<bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+		<property name="scopes">
+			<map>
+				<entry key="view">
+					<bean class="com.zan.portal.utils.ViewScope" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+
 	<sec:http use-expressions="true">
 		<sec:intercept-url pattern="/admin/**" access="hasRole('admin')" />
 		<sec:form-login />

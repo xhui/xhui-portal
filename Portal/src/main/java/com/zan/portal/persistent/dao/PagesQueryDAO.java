@@ -1,5 +1,6 @@
 package com.zan.portal.persistent.dao;
 
+import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -14,7 +15,8 @@ import com.zan.portal.model.Page;
 
 @Component
 @Scope("application")
-public class PagesQueryDAO extends MappingSqlQuery<Page> {
+public class PagesQueryDAO extends MappingSqlQuery<Page> implements
+		Serializable {
 
 	@Autowired
 	public PagesQueryDAO(DataSource dataSource) {

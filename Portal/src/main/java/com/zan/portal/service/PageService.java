@@ -1,5 +1,6 @@
 package com.zan.portal.service;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -12,7 +13,7 @@ import com.zan.portal.persistent.dao.PagesQueryDAO;
 
 @Component
 @Scope("prototype")
-public class PageService {
+public class PageService implements Serializable{
 
 	@Inject
 	private PagesQueryDAO pagesQueryDAO;

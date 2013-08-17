@@ -1,5 +1,6 @@
 package com.zan.portal.persistent.dao;
 
+import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ import com.zan.portal.model.Category;
 
 @Component
 @Scope("prototype")
-public class CategorieQueryDAO {
+public class CategorieQueryDAO implements Serializable{
 
 	private static final String SQL = "select category_id, category_name, parent_category_id from doc_categories where page_id = ? order by parent_category_id ASC, category_name ASC";
 

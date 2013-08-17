@@ -1,12 +1,14 @@
 package com.zan.portal.view.admin;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -16,37 +18,103 @@ import com.zan.portal.service.CategoryService;
 import com.zan.portal.service.PageService;
 
 @Component
-@Scope("request")
-public class ManageCategoriesBean {
-	private TreeNode root;
+@Scope("view")
+public class ManageCategoriesBean implements Serializable {
+	private static final long serialVersionUID = -4641424146371360582L;
 
-	@Inject
+	@Autowired
 	private CategoryService categoryService;
-	@Inject
+
+	@Autowired
 	private PageService pageService;
+
+	private Category category;
+
+	private List<PageTreeNode> selectedNode = new ArrayList<PageTreeNode>();
+	private List<PageTreeNode> pageTreeNodes = new ArrayList<PageTreeNode>();
 
 	@PostConstruct
 	public void init() {
-		root = new DefaultTreeNode("Categories", null);
-		root.setExpanded(true);
+		buildTree();
+	}
+
+	private void buildTree() {
 		List<Page> pages = pageService.getPages();
+		pageTreeNodes.clear();
 		for (Page p : pages) {
-			TreeNode node = new DefaultTreeNode(p.getPageName(), root);
+			PageTreeNode ptNode = new PageTreeNode();
+			pageTreeNodes.add(ptNode);
+			ptNode.setPage(p);
+			Category c = new Category();
+			c.setName(p.getPageName());
+			c.setCategoryId(-1);
+			c.addAllSubCategories(categoryService.getAvailableCategories(p
+					.getPageId()));
+			TreeNode node = new DefaultTreeNode(c, null);
 			node.setExpanded(true);
-			buildTree(node,
-					categoryService.getAvailableCategories(p.getPageId()));
+			ptNode.setTreeNode(node);
+			buildTree(node, c.getSubCategories());
+			PageTreeNode sNode = new PageTreeNode();
+			sNode.setTreeNode(new DefaultTreeNode());
+			selectedNode.add(sNode);
 		}
 	}
 
 	private void buildTree(TreeNode parentNode, List<Category> categories) {
 		for (Category c : categories) {
-			TreeNode node = new DefaultTreeNode(c.getName(), parentNode);
+			TreeNode node = new DefaultTreeNode(c, parentNode);
 			node.setExpanded(true);
 			buildTree(node, c.getSubCategories());
 		}
 	}
 
-	public TreeNode getRoot() {
-		return root;
+	public void preAddNewCategory() {
+		category = new Category();
 	}
+
+	public void addNewCategory() {
+		Category parent = (Category) selectedNode.get(0).getTreeNode()
+				.getData();
+		categoryService.addNewCategory(category, parent);
+		// trigger init to refresh the data.
+		buildTree();
+	}
+
+	public static class PageTreeNode {
+		private Page page;
+		private TreeNode treeNode;
+
+		public Page getPage() {
+			return page;
+		}
+
+		public void setPage(Page page) {
+			this.page = page;
+		}
+
+		public TreeNode getTreeNode() {
+			return treeNode;
+		}
+
+		public void setTreeNode(TreeNode treeNode) {
+			this.treeNode = treeNode;
+		}
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	public List<PageTreeNode> getPageTreeNodes() {
+		return pageTreeNodes;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public PageTreeNode getSelectedNode(int i) {
+		return selectedNode.get(i);
+	}
+
 }
