@@ -21,34 +21,38 @@
 </h:head>
 
 <h:body>
+	<h:form id="gblMsgForm">
+		<p:growl id="msg" showSummary="true" showDetail="true" />
+	</h:form>
 	<div id="wrapper">
 		<div class="header-wrapper"></div>
 		<div class="main-wrapper">
-			<h:form id="ctgForm">
-				<p:panel id="cfgPanel" menuTitle="Manage Categories"
+			<h:form id="cfgFm">
+				<p:panel id="cfgPn" menuTitle="Manage Categories"
 					header="Manage Categories">
-					<p:growl id="messages" showDetail="true" />
 					<c:forEach items="#{manageCategoriesBean.pageTreeNodes}" var="page"
 						varStatus="pageStatus">
-						<p:tree id="tree_p#{pageStatus.index}" value="#{page.treeNode}"
+						<p:tree id="t_p#{pageStatus.index}" value="#{page.treeNode}"
 							var="node" orientation="horizontal" selectionMode="single"
 							selection="#{manageCategoriesBean.getSelectedNode(pageStatus.index).treeNode}"
 							dynamic="true">
-							<p:treeNode id="treeNode_p#{pageStatus.index}">
+							<p:treeNode id="tnd_p#{pageStatus.index}">
 								<h:outputText value="#{node.name}" />
 							</p:treeNode>
 						</p:tree>
-						<p:contextMenu for="tree_p#{pageStatus.index}">
-							<p:menuitem value="Add Child" onclick="manageCategories.show()"
+						<p:contextMenu id="ctm_p#{pageStatus.index}"
+							for="t_p#{pageStatus.index}">
+							<p:menuitem value="Add Child"
+								oncomplete="manageCategories.show()"
 								actionListener="#{manageCategoriesBean.preAddNewCategory}"
-								update="messages" immediate="true" />
+								update=":gblMsgForm:msg,mngCtgDlg" immediate="true" />
 							<p:menuitem value="Update" />
 							<p:menuitem value="Delete" />
 						</p:contextMenu>
 					</c:forEach>
 				</p:panel>
 				<p:dialog modal="true" widgetVar="manageCategories"
-					header="Manage Categories">
+					header="Manage Categories" id="mngCtgDlg">
 					<p:panelGrid columns="2">
 						<h:outputLabel for="cName" value="Name:"></h:outputLabel>
 						<h:inputText id="cName" required="true"
@@ -57,7 +61,8 @@
 					<br />
 					<p:commandButton value="Save"
 						actionListener="#{manageCategoriesBean.addNewCategory}"
-						update="cfgPanel" oncomplete="manageCategories.hide()" />
+						update="cfgPn,:gblMsgForm:msg"
+						oncomplete="manageCategories.hide()" />
 					<p:commandButton value="Cancel" onclick="manageCategories.hide()" />
 				</p:dialog>
 			</h:form>

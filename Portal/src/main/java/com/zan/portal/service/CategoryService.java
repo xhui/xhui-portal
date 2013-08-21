@@ -1,6 +1,5 @@
 package com.zan.portal.service;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -11,10 +10,11 @@ import org.springframework.stereotype.Component;
 import com.zan.portal.model.Category;
 import com.zan.portal.persistent.dao.CategorieQueryDAO;
 import com.zan.portal.persistent.dao.CategoryInsertDAO;
+import com.zan.portal.utils.error.ApplicationException;
 
 @Component
 @Scope("prototype")
-public class CategoryService implements Serializable{
+public class CategoryService {
 
 	@Inject
 	private CategorieQueryDAO queryDAO;
@@ -26,7 +26,8 @@ public class CategoryService implements Serializable{
 		return queryDAO.query(pageId);
 	}
 
-	public void addNewCategory(Category newly, Category parent) {
+	public void addNewCategory(Category newly, Category parent)
+			throws ApplicationException {
 		insertDAO.insert(newly, parent);
 	}
 }

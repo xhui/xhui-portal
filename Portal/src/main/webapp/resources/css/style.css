@@ -58,7 +58,9 @@ h3 {
 .header-wrapper,.main-wrapper {
 	padding: 0 15px 0 15px
 }
-
+.main-wrapper{
+	min-height: 400px;
+}
 .general-wrapper {
 	padding: 10px 10px;
 }

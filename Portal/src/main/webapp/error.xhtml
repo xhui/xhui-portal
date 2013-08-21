@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<meta name="keywords"
+		content="Max Portal technical life leading the wind" />
+	<title>Leading The Wind - Admin Page</title>
+	<link rel='stylesheet' type='text/css'
+		href='#{appBean.resourcePath}/css/style.css' media='all' />
+	<h:outputScript library="primefaces" name="jquery/jquery.js" />
+	<script type="text/javascript"
+		src="#{appBean.resourcePath}/js/global.js"></script>
+</h:head>
+
+<h:body>
+	<div id="wrapper">
+		<div class="header-wrapper"></div>
+		<div class="main-wrapper">
+			<h3>Opps, you are the lucky one to see this ugly error page.</h3>
+			<table border="0">
+				<tr valign="top">
+					<td width="10%">Error Code:</td>
+					<td>#{errorBean.errorCode}</td>
+				</tr>
+				<tr valign="top">
+					<td>Error Message:</td>
+					<td>#{errorBean.errorMessage}</td>
+				</tr>
+			</table>
+		</div>
+		<div class="footer-wrapper"></div>
+	</div>
+</h:body>
+</html>

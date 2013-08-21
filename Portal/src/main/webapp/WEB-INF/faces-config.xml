@@ -6,4 +6,7 @@
 	<application>
 		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
 	</application>
+	<factory>
+		<exception-handler-factory>com.zan.portal.utils.DefaultExceptionHandlerFactory</exception-handler-factory>
+	</factory>
 </faces-config>

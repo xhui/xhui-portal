@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
@@ -16,6 +18,10 @@ import com.zan.portal.model.Category;
 import com.zan.portal.model.Page;
 import com.zan.portal.service.CategoryService;
 import com.zan.portal.service.PageService;
+import com.zan.portal.utils.Constant;
+import com.zan.portal.utils.ErrorCode;
+import com.zan.portal.utils.Utils;
+import com.zan.portal.utils.error.ApplicationException;
 
 @Component
 @Scope("view")
@@ -23,10 +29,10 @@ public class ManageCategoriesBean implements Serializable {
 	private static final long serialVersionUID = -4641424146371360582L;
 
 	@Autowired
-	private CategoryService categoryService;
+	private transient CategoryService categoryService;
 
 	@Autowired
-	private PageService pageService;
+	private transient PageService pageService;
 
 	private Category category;
 
@@ -72,15 +78,39 @@ public class ManageCategoriesBean implements Serializable {
 		category = new Category();
 	}
 
-	public void addNewCategory() {
-		Category parent = (Category) selectedNode.get(0).getTreeNode()
-				.getData();
-		categoryService.addNewCategory(category, parent);
-		// trigger init to refresh the data.
-		buildTree();
+	public void addNewCategory() throws ApplicationException {
+		boolean added = false;
+		Category parent = null;
+		if (selectedNode != null) {
+			for (PageTreeNode p : selectedNode) {
+				if (p != null) {
+					parent = (Category) p.getTreeNode().getData();
+					categoryService.addNewCategory(category, parent);
+					// trigger init to refresh the data.
+					buildTree();
+					added = true;
+					// can only select one node, so only update first
+					// not null node.
+					break;
+				}
+			}
+		}
+		FacesMessage message;
+		if (!added) {
+			// not added, show error.
+			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed",
+					Utils.getErrorMessage(ErrorCode.MC_FAIL_TO_ADD_CATEGORY));
+		} else {
+			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succeed",
+					Utils.getMessage(Constant.MESSAGE_ADD_CATEGORY_SUCCEED,
+							category.getName(),
+							parent != null ? parent.getName() : null));
+		}
+		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 
-	public static class PageTreeNode {
+	public static class PageTreeNode implements Serializable {
+		private static final long serialVersionUID = 920300655036318656L;
 		private Page page;
 		private TreeNode treeNode;
 
