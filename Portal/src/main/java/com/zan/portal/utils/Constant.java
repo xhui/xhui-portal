@@ -7,5 +7,7 @@ public interface Constant {
 	// Application level property keys.
 	String APP_PROPERTY_KEY_RESOURCE_URL = "resource_url";
 
-	String MESSAGE_ADD_CATEGORY_SUCCEED = "MC_ADD_SUCCEED";
+	String OPERATION_SUCCEED = "GENERAL_SUCCEED";
+
+	String MC_CANNOT_DELETE_CATEGORY_WITH_CHILD = "MC_CANNOT_DELETE_CATEGORY_WITH_CHILD";
 }

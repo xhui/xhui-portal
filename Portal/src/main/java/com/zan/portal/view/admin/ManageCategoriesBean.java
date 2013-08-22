@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
@@ -20,8 +18,8 @@ import com.zan.portal.service.CategoryService;
 import com.zan.portal.service.PageService;
 import com.zan.portal.utils.Constant;
 import com.zan.portal.utils.ErrorCode;
-import com.zan.portal.utils.Utils;
 import com.zan.portal.utils.error.ApplicationException;
+import com.zan.portal.view.ViewUtils;
 
 @Component
 @Scope("view")
@@ -79,34 +77,46 @@ public class ManageCategoriesBean implements Serializable {
 	}
 
 	public void addNewCategory() throws ApplicationException {
-		boolean added = false;
-		Category parent = null;
 		if (selectedNode != null) {
 			for (PageTreeNode p : selectedNode) {
-				if (p != null) {
-					parent = (Category) p.getTreeNode().getData();
+				if (p != null && p.getTreeNode() != null) {
+					Category parent = (Category) p.getTreeNode().getData();
 					categoryService.addNewCategory(category, parent);
 					// trigger init to refresh the data.
 					buildTree();
-					added = true;
+					ViewUtils.showSuccessMessage();
 					// can only select one node, so only update first
 					// not null node.
-					break;
+					return;
 				}
 			}
 		}
-		FacesMessage message;
-		if (!added) {
-			// not added, show error.
-			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed",
-					Utils.getErrorMessage(ErrorCode.MC_FAIL_TO_ADD_CATEGORY));
-		} else {
-			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succeed",
-					Utils.getMessage(Constant.MESSAGE_ADD_CATEGORY_SUCCEED,
-							category.getName(),
-							parent != null ? parent.getName() : null));
+		ViewUtils.showFailMessage(ErrorCode.MC_FAIL_TO_ADD_CATEGORY);
+	}
+
+	public void deleteCategory() throws ApplicationException {
+		if (selectedNode != null) {
+			for (PageTreeNode p : selectedNode) {
+				if (p != null && p.getTreeNode() != null
+						&& p.getTreeNode().getData() != null) {
+
+					if (!p.getTreeNode().isLeaf()) {
+						ViewUtils
+								.showInfoMessage(Constant.MC_CANNOT_DELETE_CATEGORY_WITH_CHILD);
+						return;
+					}
+					Category c = (Category) p.getTreeNode().getData();
+					categoryService.deleteCategory(c);
+					// trigger init to refresh the data.
+					buildTree();
+					// can only select one node, so only update first
+					// not null node.
+					ViewUtils.showSuccessMessage();
+					return;
+				}
+			}
 		}
-		FacesContext.getCurrentInstance().addMessage(null, message);
+		ViewUtils.showFailMessage(ErrorCode.MC_FAIL_TO_DELEE_CATEGORY);
 	}
 
 	public static class PageTreeNode implements Serializable {
@@ -146,5 +156,4 @@ public class ManageCategoriesBean implements Serializable {
 	public PageTreeNode getSelectedNode(int i) {
 		return selectedNode.get(i);
 	}
-
 }

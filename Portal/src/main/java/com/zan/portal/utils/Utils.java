@@ -6,10 +6,8 @@ import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Component;
 import org.springframework.web.jsf.FacesContextUtils;
 
-@Component
 public class Utils {
 
 	public static ServletContext getServletContext() {
