@@ -28,7 +28,7 @@ public class CategoryDeleteDAO {
 	public void update(Category c, Category parent) {
 		jdbc.update(
 				"update doc_categories set category_name = ?, page_id = ?, parent_category_id= ? where category_id= ?",
-				c.getName(), c.getPageId(), parent.getCategoryId(),
-				c.getCategoryId());
+				c.getName(), c.getPageId(),
+				null == parent ? 0 : parent.getCategoryId(), c.getCategoryId());
 	}
 }

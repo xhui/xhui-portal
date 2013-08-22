@@ -44,7 +44,8 @@
 						<p:menuitem value="Update" oncomplete="manageCategories.show()"
 							actionListener="#{manageCategoriesBean.preUpdateNewCategory}"
 							update=":gblMsgForm:msg,:ctgDlgForm:mngCtgDlgInput" />
-						<p:menuitem value="Delete" onclick="cfDltDlgWv.show()" />
+						<p:menuitem value="Delete" onclick="cfDltDlgWv.show()"
+							id="dltMenu" />
 					</p:contextMenu>
 					<p:confirmDialog id="cfDltDlg"
 						message="Are you sure to delete this category?" header="Warning"

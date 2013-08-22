@@ -23,7 +23,11 @@ import com.zan.portal.view.ViewUtils;
 @Component
 @Scope("view")
 public class ManageCategoriesBean implements Serializable {
+
 	private static final long serialVersionUID = -4641424146371360582L;
+
+	private static final int ROOT_PAGE = -1;
+	private static final int PAGE_ITEM = -1;
 
 	@Autowired
 	private transient CategoryService categoryService;
@@ -47,16 +51,16 @@ public class ManageCategoriesBean implements Serializable {
 	private void buildTree() {
 		List<Page> pages = pageService.getPages();
 		Category rootCategory = new Category();
-		rootCategory.setCategoryId(-1);
+		rootCategory.setCategoryId(PAGE_ITEM);
 		rootCategory.setName("Root");
-		rootCategory.setPageId(-1);
+		rootCategory.setPageId(ROOT_PAGE);
 		rootNode = new DefaultTreeNode(rootCategory, null);
 		rootNode.setExpanded(true);
 
 		for (Page p : pages) {
 			Category c = new Category();
 			c.setName(p.getPageName());
-			c.setCategoryId(-1);
+			c.setCategoryId(PAGE_ITEM);
 			c.setPageId(p.getPageId());
 			c.addAllSubCategories(categoryService.getAvailableCategories(p
 					.getPageId()));
@@ -80,36 +84,28 @@ public class ManageCategoriesBean implements Serializable {
 	}
 
 	public void addNewCategory() throws ApplicationException {
-		if (selectedNode != null) {
-			Category parent = (Category) selectedNode.getData();
-			categoryService.addNewCategory(category, parent);
-			// trigger init to refresh the data.
-			buildTree();
-			ViewUtils.showSuccessMessage();
-			// can only select one node, so only update first
-			// not null node.
-			return;
-		}
-		ViewUtils.showFailMessage(ErrorCode.MC_NOTHING_SELECTED);
+		manageCategory(new CategoryHandler() {
+			@Override
+			public void handle() throws ApplicationException {
+				Category parent = (Category) selectedNode.getData();
+				categoryService.addNewCategory(category, parent);
+			}
+		});
 	}
 
 	public void deleteCategory() throws ApplicationException {
-		if (selectedNode != null) {
-			if (!selectedNode.isLeaf()) {
-				ViewUtils
-						.showInfoMessage(Constant.MC_CANNOT_DELETE_CATEGORY_WITH_CHILD);
-				return;
+		manageCategory(new CategoryHandler() {
+			@Override
+			public void handle() {
+				if (!selectedNode.isLeaf()) {
+					ViewUtils
+							.showInfoMessage(Constant.MC_CANNOT_DELETE_CATEGORY_WITH_CHILD);
+					return;
+				}
+				Category c = (Category) selectedNode.getData();
+				categoryService.deleteCategory(c);
 			}
-			Category c = (Category) selectedNode.getData();
-			categoryService.deleteCategory(c);
-			// trigger init to refresh the data.
-			buildTree();
-			// can only select one node, so only update first
-			// not null node.
-			ViewUtils.showSuccessMessage();
-			return;
-		}
-		ViewUtils.showFailMessage(ErrorCode.MC_NOTHING_SELECTED);
+		});
 	}
 
 	public void preUpdateNewCategory() {
@@ -121,20 +117,37 @@ public class ManageCategoriesBean implements Serializable {
 		}
 	}
 
-	public void updateNewCategory() {
-		if (selectedNode != null && selectedNode.getParent() != null) {
-			Category parent = (Category) selectedNode.getParent().getData();
-			// Category newly = (Category) selectedNode.getData();
-			// newly.setName(category.getName());
-			categoryService.updateCategory(category, parent);
-			// trigger init to refresh the data.
-			buildTree();
-			ViewUtils.showSuccessMessage();
-			// can only select one node, so only update first
-			// not null node.
-			return;
+	public void updateNewCategory() throws ApplicationException {
+		manageCategory(new CategoryHandler() {
+			@Override
+			public void handle() {
+				Category parent = (null == selectedNode.getParent()) ? null
+						: (Category) selectedNode.getParent().getData();
+				categoryService.updateCategory(category, parent);
+			}
+		});
+	}
+
+	private void manageCategory(CategoryHandler h) throws ApplicationException {
+		if (selectedNode != null) {
+			Category c = (Category) selectedNode.getData();
+			if (c.getPageId() == ROOT_PAGE) {
+				ViewUtils.showInfoMessage(Constant.MC_CANNOT_EDIT_ROOT);
+			} else if (c.getCategoryId() == PAGE_ITEM) {
+				ViewUtils.showInfoMessage(Constant.MC_CANNOT_EDIT_ROOT);
+			} else {
+				h.handle();
+				// trigger init to refresh the data.
+				buildTree();
+				ViewUtils.showSuccessMessage();
+			}
+		} else {
+			ViewUtils.showFailMessage(ErrorCode.MC_NOTHING_SELECTED);
 		}
-		ViewUtils.showFailMessage(ErrorCode.MC_NOTHING_SELECTED);
+	}
+
+	private static interface CategoryHandler {
+		void handle() throws ApplicationException;
 	}
 
 	public void setCategory(Category category) {
