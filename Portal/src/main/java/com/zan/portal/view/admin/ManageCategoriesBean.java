@@ -1,7 +1,6 @@
 package com.zan.portal.view.admin;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -34,8 +33,11 @@ public class ManageCategoriesBean implements Serializable {
 
 	private Category category;
 
-	private List<PageTreeNode> selectedNode = new ArrayList<PageTreeNode>();
-	private List<PageTreeNode> pageTreeNodes = new ArrayList<PageTreeNode>();
+	private TreeNode rootNode;
+
+	private TreeNode selectedNode;
+
+	private boolean actionUpdate;
 
 	@PostConstruct
 	public void init() {
@@ -44,23 +46,23 @@ public class ManageCategoriesBean implements Serializable {
 
 	private void buildTree() {
 		List<Page> pages = pageService.getPages();
-		pageTreeNodes.clear();
+		Category rootCategory = new Category();
+		rootCategory.setCategoryId(-1);
+		rootCategory.setName("Root");
+		rootCategory.setPageId(-1);
+		rootNode = new DefaultTreeNode(rootCategory, null);
+		rootNode.setExpanded(true);
+
 		for (Page p : pages) {
-			PageTreeNode ptNode = new PageTreeNode();
-			pageTreeNodes.add(ptNode);
-			ptNode.setPage(p);
 			Category c = new Category();
 			c.setName(p.getPageName());
 			c.setCategoryId(-1);
+			c.setPageId(p.getPageId());
 			c.addAllSubCategories(categoryService.getAvailableCategories(p
 					.getPageId()));
-			TreeNode node = new DefaultTreeNode(c, null);
+			TreeNode node = new DefaultTreeNode(c, rootNode);
 			node.setExpanded(true);
-			ptNode.setTreeNode(node);
 			buildTree(node, c.getSubCategories());
-			PageTreeNode sNode = new PageTreeNode();
-			sNode.setTreeNode(new DefaultTreeNode());
-			selectedNode.add(sNode);
 		}
 	}
 
@@ -74,86 +76,88 @@ public class ManageCategoriesBean implements Serializable {
 
 	public void preAddNewCategory() {
 		category = new Category();
+		actionUpdate = false;
 	}
 
 	public void addNewCategory() throws ApplicationException {
 		if (selectedNode != null) {
-			for (PageTreeNode p : selectedNode) {
-				if (p != null && p.getTreeNode() != null) {
-					Category parent = (Category) p.getTreeNode().getData();
-					categoryService.addNewCategory(category, parent);
-					// trigger init to refresh the data.
-					buildTree();
-					ViewUtils.showSuccessMessage();
-					// can only select one node, so only update first
-					// not null node.
-					return;
-				}
-			}
+			Category parent = (Category) selectedNode.getData();
+			categoryService.addNewCategory(category, parent);
+			// trigger init to refresh the data.
+			buildTree();
+			ViewUtils.showSuccessMessage();
+			// can only select one node, so only update first
+			// not null node.
+			return;
 		}
-		ViewUtils.showFailMessage(ErrorCode.MC_FAIL_TO_ADD_CATEGORY);
+		ViewUtils.showFailMessage(ErrorCode.MC_NOTHING_SELECTED);
 	}
 
 	public void deleteCategory() throws ApplicationException {
 		if (selectedNode != null) {
-			for (PageTreeNode p : selectedNode) {
-				if (p != null && p.getTreeNode() != null
-						&& p.getTreeNode().getData() != null) {
-
-					if (!p.getTreeNode().isLeaf()) {
-						ViewUtils
-								.showInfoMessage(Constant.MC_CANNOT_DELETE_CATEGORY_WITH_CHILD);
-						return;
-					}
-					Category c = (Category) p.getTreeNode().getData();
-					categoryService.deleteCategory(c);
-					// trigger init to refresh the data.
-					buildTree();
-					// can only select one node, so only update first
-					// not null node.
-					ViewUtils.showSuccessMessage();
-					return;
-				}
+			if (!selectedNode.isLeaf()) {
+				ViewUtils
+						.showInfoMessage(Constant.MC_CANNOT_DELETE_CATEGORY_WITH_CHILD);
+				return;
 			}
+			Category c = (Category) selectedNode.getData();
+			categoryService.deleteCategory(c);
+			// trigger init to refresh the data.
+			buildTree();
+			// can only select one node, so only update first
+			// not null node.
+			ViewUtils.showSuccessMessage();
+			return;
 		}
-		ViewUtils.showFailMessage(ErrorCode.MC_FAIL_TO_DELEE_CATEGORY);
+		ViewUtils.showFailMessage(ErrorCode.MC_NOTHING_SELECTED);
 	}
 
-	public static class PageTreeNode implements Serializable {
-		private static final long serialVersionUID = 920300655036318656L;
-		private Page page;
-		private TreeNode treeNode;
-
-		public Page getPage() {
-			return page;
+	public void preUpdateNewCategory() {
+		actionUpdate = true;
+		if (selectedNode != null) {
+			category = (Category) selectedNode.getData();
+		} else {
+			ViewUtils.showFailMessage(ErrorCode.MC_NOTHING_SELECTED);
 		}
+	}
 
-		public void setPage(Page page) {
-			this.page = page;
+	public void updateNewCategory() {
+		if (selectedNode != null && selectedNode.getParent() != null) {
+			Category parent = (Category) selectedNode.getParent().getData();
+			// Category newly = (Category) selectedNode.getData();
+			// newly.setName(category.getName());
+			categoryService.updateCategory(category, parent);
+			// trigger init to refresh the data.
+			buildTree();
+			ViewUtils.showSuccessMessage();
+			// can only select one node, so only update first
+			// not null node.
+			return;
 		}
-
-		public TreeNode getTreeNode() {
-			return treeNode;
-		}
-
-		public void setTreeNode(TreeNode treeNode) {
-			this.treeNode = treeNode;
-		}
+		ViewUtils.showFailMessage(ErrorCode.MC_NOTHING_SELECTED);
 	}
 
 	public void setCategory(Category category) {
 		this.category = category;
 	}
 
-	public List<PageTreeNode> getPageTreeNodes() {
-		return pageTreeNodes;
-	}
-
 	public Category getCategory() {
 		return category;
 	}
 
-	public PageTreeNode getSelectedNode(int i) {
-		return selectedNode.get(i);
+	public TreeNode getSelectedNode() {
+		return selectedNode;
+	}
+
+	public TreeNode getRootNode() {
+		return rootNode;
+	}
+
+	public void setSelectedNode(TreeNode selectedNode) {
+		this.selectedNode = selectedNode;
+	}
+
+	public boolean isActionUpdate() {
+		return actionUpdate;
 	}
 }

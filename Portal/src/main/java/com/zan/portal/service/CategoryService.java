@@ -24,7 +24,7 @@ public class CategoryService {
 	private CategoryInsertDAO insertDAO;
 
 	@Inject
-	private CategoryDeleteDAO deleteDAO;
+	private CategoryDeleteDAO updateDAO;
 
 	public List<Category> getAvailableCategories(int pageId) {
 		return queryDAO.query(pageId);
@@ -36,6 +36,10 @@ public class CategoryService {
 	}
 
 	public void deleteCategory(Category c) {
-		deleteDAO.delete(c);
+		updateDAO.delete(c);
+	}
+
+	public void updateCategory(Category c, Category parent) {
+		updateDAO.update(c, parent);
 	}
 }
