@@ -86,9 +86,15 @@ public class ManageCategoriesBean implements Serializable {
 	public void addNewCategory() throws ApplicationException {
 		manageCategory(new CategoryHandler() {
 			@Override
-			public void handle() throws ApplicationException {
+			public boolean handle() throws ApplicationException {
 				Category parent = (Category) selectedNode.getData();
-				categoryService.addNewCategory(category, parent);
+				category.setPageId(parent.getPageId());
+				if (parent.getCategoryId() == PAGE_ITEM) {
+					categoryService.addNewCategory(category, null);
+				} else {
+					categoryService.addNewCategory(category, parent);
+				}
+				return true;
 			}
 		});
 	}
@@ -96,14 +102,20 @@ public class ManageCategoriesBean implements Serializable {
 	public void deleteCategory() throws ApplicationException {
 		manageCategory(new CategoryHandler() {
 			@Override
-			public void handle() {
-				if (!selectedNode.isLeaf()) {
-					ViewUtils
-							.showInfoMessage(Constant.MC_CANNOT_DELETE_CATEGORY_WITH_CHILD);
-					return;
-				}
+			public boolean handle() {
 				Category c = (Category) selectedNode.getData();
-				categoryService.deleteCategory(c);
+				if (c.getCategoryId() == PAGE_ITEM) {
+					ViewUtils.showInfoMessage(Constant.MC_CANNOT_EDIT_ROOT);
+				} else {
+					if (!selectedNode.isLeaf()) {
+						ViewUtils
+								.showInfoMessage(Constant.MC_CANNOT_DELETE_CATEGORY_WITH_CHILD);
+					} else {
+						categoryService.deleteCategory(c);
+						return true;
+					}
+				}
+				return false;
 			}
 		});
 	}
@@ -111,7 +123,8 @@ public class ManageCategoriesBean implements Serializable {
 	public void preUpdateNewCategory() {
 		actionUpdate = true;
 		if (selectedNode != null) {
-			category = (Category) selectedNode.getData();
+			Category original = (Category) selectedNode.getData();
+			category = new Category(original);
 		} else {
 			ViewUtils.showFailMessage(ErrorCode.MC_NOTHING_SELECTED);
 		}
@@ -120,10 +133,16 @@ public class ManageCategoriesBean implements Serializable {
 	public void updateNewCategory() throws ApplicationException {
 		manageCategory(new CategoryHandler() {
 			@Override
-			public void handle() {
-				Category parent = (null == selectedNode.getParent()) ? null
-						: (Category) selectedNode.getParent().getData();
-				categoryService.updateCategory(category, parent);
+			public boolean handle() {
+				if (category.getCategoryId() == PAGE_ITEM) {
+					ViewUtils.showInfoMessage(Constant.MC_CANNOT_EDIT_ROOT);
+				} else {
+					Category parent = (null == selectedNode.getParent()) ? null
+							: (Category) selectedNode.getParent().getData();
+					categoryService.updateCategory(category, parent);
+					return true;
+				}
+				return false;
 			}
 		});
 	}
@@ -133,13 +152,12 @@ public class ManageCategoriesBean implements Serializable {
 			Category c = (Category) selectedNode.getData();
 			if (c.getPageId() == ROOT_PAGE) {
 				ViewUtils.showInfoMessage(Constant.MC_CANNOT_EDIT_ROOT);
-			} else if (c.getCategoryId() == PAGE_ITEM) {
-				ViewUtils.showInfoMessage(Constant.MC_CANNOT_EDIT_ROOT);
 			} else {
-				h.handle();
-				// trigger init to refresh the data.
-				buildTree();
-				ViewUtils.showSuccessMessage();
+				if (h.handle()) {
+					// trigger init to refresh the data.
+					buildTree();
+					ViewUtils.showSuccessMessage();
+				}
 			}
 		} else {
 			ViewUtils.showFailMessage(ErrorCode.MC_NOTHING_SELECTED);
@@ -147,7 +165,7 @@ public class ManageCategoriesBean implements Serializable {
 	}
 
 	private static interface CategoryHandler {
-		void handle() throws ApplicationException;
+		boolean handle() throws ApplicationException;
 	}
 
 	public void setCategory(Category category) {

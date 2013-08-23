@@ -15,6 +15,14 @@ public class Category implements Serializable {
 		subCategories = new ArrayList<Category>();
 	}
 
+	public Category(Category c) {
+		this();
+		setPageId(c.getPageId());
+		setCategoryId(c.getCategoryId());
+		setName(c.getName());
+		addAllSubCategories(c.getSubCategories());
+	}
+
 	public int getCategoryId() {
 		return categoryId;
 	}

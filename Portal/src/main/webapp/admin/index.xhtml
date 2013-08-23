@@ -40,10 +40,10 @@
 					<p:contextMenu id="cfgCtm" for="cfgTree">
 						<p:menuitem value="Add Child" oncomplete="manageCategories.show()"
 							actionListener="#{manageCategoriesBean.preAddNewCategory}"
-							update=":gblMsgForm:msg,:ctgDlgForm:mngCtgDlgInput" />
+							update=":gblMsgForm:msg,:ctgDlgForm:mngCtgDlgPanel,:ctgDlgForm:SaveAdd,:ctgDlgForm:SaveUpdate" />
 						<p:menuitem value="Update" oncomplete="manageCategories.show()"
 							actionListener="#{manageCategoriesBean.preUpdateNewCategory}"
-							update=":gblMsgForm:msg,:ctgDlgForm:mngCtgDlgInput" />
+							update=":gblMsgForm:msg,:ctgDlgForm:mngCtgDlgPanel,:ctgDlgForm:SaveAdd,:ctgDlgForm:SaveUpdate" />
 						<p:menuitem value="Delete" onclick="cfDltDlgWv.show()"
 							id="dltMenu" />
 					</p:contextMenu>
@@ -60,23 +60,26 @@
 			<h:form id="ctgDlgForm">
 				<p:dialog modal="true" widgetVar="manageCategories"
 					header="Manage Categories" id="mngCtgDlg">
-					<p:panelGrid id="mngCtgDlgInput" columns="2">
-						<h:outputLabel for="cName" value="Name:"></h:outputLabel>
-						<h:inputText id="cName" required="true"
-							value="#{manageCategoriesBean.category.name}"></h:inputText>
-					</p:panelGrid>
-					<br />
-					<p:commandButton value="Save"
-						actionListener="#{manageCategoriesBean.addNewCategory}"
-						update=":gblMsgForm:msg,:cfgForm:cfgPanel"
-						oncomplete="manageCategories.hide()"
-						rendered="#{manageCategoriesBean.actionUpdate}" />
-					<p:commandButton value="Save"
-						actionListener="#{manageCategoriesBean.updateNewCategory}"
-						update=":gblMsgForm:msg,:cfgForm:cfgPanel"
-						oncomplete="manageCategories.hide()"
-						rendered="#{!manageCategoriesBean.actionUpdate}" />
-					<p:commandButton value="Cancel" onclick="manageCategories.hide()" />
+					<p:panel id="mngCtgDlgPanel">
+						<p:panelGrid id="mngCtgDlgInput" columns="2">
+							<h:outputLabel for="cName" value="Name:"></h:outputLabel>
+							<h:inputText id="cName" required="true"
+								value="#{manageCategoriesBean.category.name}"></h:inputText>
+						</p:panelGrid>
+						<br />
+						<p:commandButton id="SaveAdd" value="Save"
+							actionListener="#{manageCategoriesBean.addNewCategory}"
+							update=":gblMsgForm:msg,:cfgForm:cfgPanel"
+							oncomplete="manageCategories.hide()"
+							rendered="#{!manageCategoriesBean.actionUpdate}" />
+						<p:commandButton id="SaveUpdate" value="Save"
+							actionListener="#{manageCategoriesBean.updateNewCategory}"
+							update=":gblMsgForm:msg,:cfgForm:cfgPanel"
+							oncomplete="manageCategories.hide()"
+							rendered="#{manageCategoriesBean.actionUpdate}" />
+						<p:commandButton id="cancelDlg" value="Cancel"
+							onclick="manageCategories.hide()" />
+					</p:panel>
 				</p:dialog>
 			</h:form>
 		</div>

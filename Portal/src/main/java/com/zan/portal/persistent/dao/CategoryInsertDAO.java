@@ -34,8 +34,10 @@ public class CategoryInsertDAO {
 			throws ApplicationException {
 		Map<String, Object> parameters = new HashMap<String, Object>(3);
 		parameters.put("category_name", newly.getName());
-		parameters.put("parent_category_id", parent.getCategoryId());
-		parameters.put("page_id", parent.getPageId());
+		if (null != parent) {
+			parameters.put("parent_category_id", parent.getCategoryId());
+		}
+		parameters.put("page_id", newly.getPageId());
 		try {
 			insertActor.execute(parameters);
 		} catch (DuplicateKeyException ex) {
