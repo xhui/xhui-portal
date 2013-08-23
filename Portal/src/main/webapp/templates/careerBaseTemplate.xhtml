@@ -8,51 +8,7 @@
 		<h:form id="careerMenuForm">
 			<p:tieredMenu styleClass="leftMenu">
 				<p:menuitem value="Index" url="/career.xhtml" />
-				<p:separator />
-				<p:menuitem value="Technical" />
-				<p:submenu label="Java" styleClass="sub-menu">
-					<p:menuitem value="Java Basis" />
-					<p:submenu label="Presentation">
-						<p:menuitem value="JSP" />
-						<p:menuitem value="JSF" />
-						<p:menuitem value="Velocity" />
-					</p:submenu>
-					<p:submenu label="Persistent">
-						<p:menuitem value="MyBatis" />
-						<p:menuitem value="JPA" />
-						<p:menuitem value="JDO" />
-					</p:submenu>
-					<p:submenu label="General Framework">
-						<p:menuitem value="Spring" />
-					</p:submenu>
-					<p:menuitem value="Server" />
-					<p:submenu label="High Performance">
-						<p:menuitem value="Cache" />
-					</p:submenu>
-				</p:submenu>
-				<p:submenu label="Front End" styleClass="sub-menu">
-					<p:menuitem value="HTML" />
-					<p:menuitem value="CSS" />
-					<p:submenu label="Javascripts">
-						<p:menuitem value="ExtJS" />
-						<p:menuitem value="JQuery" />
-						<p:menuitem value="YUI" />
-					</p:submenu>
-				</p:submenu>
-				<p:menuitem value="Test" styleClass="sub-menu" />
-				<p:menuitem value="Web Service" styleClass="sub-menu" />
-				<p:menuitem value="Continuous Integration" styleClass="sub-menu" />
-				<p:separator />
-				<p:menuitem value="Management" />
-				<p:submenu label="Software Develope" styleClass="sub-menu">
-					<p:menuitem value="Risk Control" />
-					<p:menuitem value="Task Tracking" />
-				</p:submenu>
-				<p:separator />
-				<p:menuitem value="Investment" />
-				<p:separator />
-				<p:menuitem value="Uncategoried" />
-				<c:forEach items="#{categoriesBean.categories}" var="category">
+				<c:forEach items="#{categoriesBean.careerCategories}" var="category">
 					<p:separator />
 					<p:menuitem value="#{category.name}" />
 					<ui:include src="leftMenu.xhtml">

@@ -14,17 +14,30 @@ import com.zan.portal.service.CategoryService;
 @Component
 @Scope("request")
 public class CategoriesBean {
-	private List<Category> categories;
+
+	private List<Category> careerCategories;
+
+	private List<Category> lifeCategories;
 
 	@Inject
 	private CategoryService categoryService;
 
 	@PostConstruct
 	public void init() {
-		categories = categoryService.getAvailableCategories(2);
+
 	}
 
-	public List<Category> getCategories() {
-		return categories;
+	public List<Category> getCareerCategories() {
+		if (null == careerCategories) {
+			careerCategories = categoryService.getAvailableCategories(2);
+		}
+		return careerCategories;
+	}
+
+	public List<Category> getLifeCategories() {
+		if (null == lifeCategories) {
+			lifeCategories = categoryService.getAvailableCategories(1);
+		}
+		return lifeCategories;
 	}
 }
