@@ -40,6 +40,10 @@
 		<property name="password" value="" />
 	</bean>
 
+	<!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" 
+		factory-bean="datasourceAdapter" factory-method="buildDataSource" lazy-init="true"> 
+		</bean> -->
+
 	<sec:http use-expressions="true">
 		<sec:intercept-url pattern="/admin/**" access="hasRole('admin')" />
 		<sec:form-login />

@@ -6,7 +6,7 @@
 	template="/templates/generalPageTemplate.xhtml">
 	<ui:define name="left_nav_content">
 		<h:form id="careerMenuForm">
-			<p:tieredMenu styleClass="leftMenu">
+			<p:tieredMenu>
 				<p:menuitem value="Index" url="/career.xhtml" />
 				<c:forEach items="#{categoriesBean.careerCategories}" var="category">
 					<p:separator />
