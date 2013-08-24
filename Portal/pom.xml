@@ -8,6 +8,7 @@
 	<artifactId>Portal</artifactId>
 
 	<properties>
+		<profileName>dev</profileName>
 		<spring.core.version>3.2.3.RELEASE</spring.core.version>
 		<spring.security.version>3.1.4.RELEASE</spring.security.version>
 	</properties>
@@ -164,6 +165,27 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<profileName>dev</profileName>
+			</properties>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<profileName>prod</profileName>
+			</properties>
+		</profile>
+	</profiles>
 </project>

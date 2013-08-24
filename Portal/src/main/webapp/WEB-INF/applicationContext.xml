@@ -32,18 +32,6 @@
 		</property>
 	</bean>
 
-	<bean id="dataSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://127.0.0.1:3306/portal" />
-		<property name="username" value="root" />
-		<property name="password" value="" />
-	</bean>
-
-	<!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" 
-		factory-bean="datasourceAdapter" factory-method="buildDataSource" lazy-init="true"> 
-		</bean> -->
-
 	<sec:http use-expressions="true">
 		<sec:intercept-url pattern="/admin/**" access="hasRole('admin')" />
 		<sec:form-login />
@@ -64,4 +52,21 @@
 
 	<context:component-scan base-package="com.zan.portal" />
 
+	<beans profile="dev">
+		<bean id="dataSource"
+			class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+			<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+			<property name="url" value="jdbc:mysql://127.0.0.1:3306/portal" />
+			<property name="username" value="root" />
+			<property name="password" value="" />
+		</bean>
+	</beans>
+
+	<beans profile="prod">
+		<bean id="dataSource"
+			class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+			factory-bean="datasourceAdapter" factory-method="buildDataSource"
+			lazy-init="true">
+		</bean>
+	</beans>
 </beans>
