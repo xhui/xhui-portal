@@ -18,70 +18,19 @@
 	<h:outputScript library="primefaces" name="jquery/jquery.js" />
 	<script type="text/javascript"
 		src="#{appBean.resourcePath}/js/global.js"></script>
+	<script src="/ckeditor/ckeditor.js"></script>
 </h:head>
 
 <h:body>
-	<h:form id="gblMsgForm">
-		<p:growl id="msg" showSummary="true" showDetail="true" />
-	</h:form>
-	<div id="wrapper">
+	<div id="wrapper" class="adminWrapper">
 		<div class="header-wrapper"></div>
 		<div class="main-wrapper">
-			<h:form id="cfgForm">
-				<p:panel id="cfgPanel" menuTitle="Manage Categories"
-					header="Manage Categories" styleClass="mngCtg">
-					<p:tree id="cfgTree" value="#{manageCategoriesBean.rootNode}"
-						var="node" orientation="horizontal" selectionMode="single"
-						selection="#{manageCategoriesBean.selectedNode}" dynamic="true">
-						<p:treeNode id="ctgTreeNode">
-							<h:outputText value="#{node.name}" />
-						</p:treeNode>
-					</p:tree>
-					<p:contextMenu id="cfgCtm" for="cfgTree">
-						<p:menuitem value="Add Child" oncomplete="manageCategories.show()"
-							actionListener="#{manageCategoriesBean.preAddNewCategory}"
-							update=":gblMsgForm:msg,:ctgDlgForm:mngCtgDlgPanel,:ctgDlgForm:SaveAdd,:ctgDlgForm:SaveUpdate" />
-						<p:menuitem value="Update" oncomplete="manageCategories.show()"
-							actionListener="#{manageCategoriesBean.preUpdateNewCategory}"
-							update=":gblMsgForm:msg,:ctgDlgForm:mngCtgDlgPanel,:ctgDlgForm:SaveAdd,:ctgDlgForm:SaveUpdate" />
-						<p:menuitem value="Delete" onclick="cfDltDlgWv.show()"
-							id="dltMenu" />
-					</p:contextMenu>
-					<p:confirmDialog id="cfDltDlg"
-						message="Are you sure to delete this category?" header="Warning"
-						severity="alert" widgetVar="cfDltDlgWv">
-						<p:commandButton value="Yes"
-							actionListener="#{manageCategoriesBean.deleteCategory}"
-							update=":gblMsgForm:msg,cfgPanel" oncomplete="cfDltDlgWv.hide()" />
-						<p:commandButton value="Cancel" onclick="cfDltDlgWv.hide();" />
-					</p:confirmDialog>
-				</p:panel>
+			<h:form id="gblMsgForm">
+				<p:growl id="msg" showSummary="true" showDetail="true" />
 			</h:form>
-			<h:form id="ctgDlgForm">
-				<p:dialog modal="true" widgetVar="manageCategories"
-					header="Manage Categories" id="mngCtgDlg">
-					<p:panel id="mngCtgDlgPanel">
-						<p:panelGrid id="mngCtgDlgInput" columns="2">
-							<h:outputLabel for="cName" value="Name:"></h:outputLabel>
-							<h:inputText id="cName" required="true"
-								value="#{manageCategoriesBean.category.name}"></h:inputText>
-						</p:panelGrid>
-						<br />
-						<p:commandButton id="SaveAdd" value="Save"
-							actionListener="#{manageCategoriesBean.addNewCategory}"
-							update=":gblMsgForm:msg,:cfgForm:cfgPanel"
-							oncomplete="manageCategories.hide()"
-							rendered="#{!manageCategoriesBean.actionUpdate}" />
-						<p:commandButton id="SaveUpdate" value="Save"
-							actionListener="#{manageCategoriesBean.updateNewCategory}"
-							update=":gblMsgForm:msg,:cfgForm:cfgPanel"
-							oncomplete="manageCategories.hide()"
-							rendered="#{manageCategoriesBean.actionUpdate}" />
-						<p:commandButton id="cancelDlg" value="Cancel"
-							onclick="manageCategories.hide()" />
-					</p:panel>
-				</p:dialog>
-			</h:form>
+			<ui:include src="categories.xhtml" />
+			<ui:include src="manageCategories.xhtml" />
+			<ui:include src="editDoc.xhtml"></ui:include>
 		</div>
 		<div class="footer-wrapper"></div>
 	</div>

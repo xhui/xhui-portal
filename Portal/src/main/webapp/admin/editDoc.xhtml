@@ -1,0 +1,45 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:form id="docForm">
+		<p:dialog modal="true" widgetVar="updateDoc" header="Manage Document"
+			id="updtDoc">
+			<table>
+				<tbody>
+					<tr valign="middle">
+						<td><h:outputLabel for="docCategory" value="Category:" /></td>
+						<td><h:outputText id="docCategory"
+								value="#{manageCategoriesBean.category.name}" /></td>
+					</tr>
+					<tr valign="middle">
+						<td><h:outputLabel for="docTitle" value="Subject:" /></td>
+						<td><h:inputText id="docTitle" required="true"
+								value="#{manageCategoriesBean.documentEntry.docTitle}"
+								size="130" /></td>
+					</tr>
+					<tr valign="top">
+						<td><h:outputLabel for="docDesc" value="Description:" /></td>
+						<td><h:inputTextarea id="docDesc" rows="3" cols="98"
+								value="#{manageCategoriesBean.documentEntry.docDesc}"
+								required="true" /></td>
+					</tr>
+				</tbody>
+			</table>
+			<p:editor id="docContent"
+				value="#{manageCategoriesBean.documentEntry.docContent}" width="900" />
+			<!-- <textarea id="docEditor" name="docEditor">#{manageCategoriesBean.documentEntry.docContent}</textarea> -->
+			<p:commandButton id="docSave" value="Save"
+				onsuccess="updateDoc.hide()"
+				actionListener="#{ manageCategoriesBean.doUpdateDoc }">
+			</p:commandButton>
+			<p:commandButton id="docCancel" value="Cancel"
+				onclick="updateDoc.hide()"></p:commandButton>
+			<!-- <script type="text/javascript">
+				CKEDITOR.replace('docForm:docContent');
+			</script> -->
+		</p:dialog>
+	</h:form>
+</ui:composition>

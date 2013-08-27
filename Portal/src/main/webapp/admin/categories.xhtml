@@ -3,18 +3,37 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
-	<c:forEach items="#{category.subCategories}" var="category">
-		<c:choose>
-			<c:when test="#{category.containSubCategories}">
-				<p:submenu label="#{category.name}">
-					<ui:include src="categories.xhtml">
-						<ui:param name="isFirstLevel" value=""></ui:param>
-					</ui:include>
-				</p:submenu>
-			</c:when>
-			<c:otherwise>
-				<p:menuitem value="#{category.name}" />
-			</c:otherwise>
-		</c:choose>
-	</c:forEach>
+	<h:form id="cfgForm">
+		<p:panel id="cfgPanel" menuTitle="Manage Categories"
+			header="Manage Categories" styleClass="mngCtg">
+			<p:tree id="cfgTree" value="#{manageCategoriesBean.rootNode}"
+				var="node" orientation="horizontal" selectionMode="single"
+				selection="#{manageCategoriesBean.selectedNode}" dynamic="true">
+				<p:treeNode id="ctgTreeNode">
+					<h:outputText value="#{node.name}" />
+				</p:treeNode>
+			</p:tree>
+			<p:contextMenu id="cfgCtm" for="cfgTree">
+				<p:menuitem value="Add Child" oncomplete="manageCategories.show()"
+					actionListener="#{manageCategoriesBean.preAddNewCategory}"
+					update=":gblMsgForm:msg,:ctgDlgForm:mngCtgDlgPanel" />
+				<p:menuitem value="Update" oncomplete="manageCategories.show()"
+					actionListener="#{manageCategoriesBean.preUpdateNewCategory}"
+					update=":gblMsgForm:msg,:ctgDlgForm:mngCtgDlgPanel" />
+				<p:menuitem value="Delete" onclick="cfDltDlgWv.show()" id="dltMenu" />
+				<p:menuitem value="Add New Article" oncomplete="updateDoc.show()"
+					actionListener="#{manageCategoriesBean.preUpdateDoc}"
+					update=":gblMsgForm:msg,:docForm:updtDoc">
+				</p:menuitem>
+			</p:contextMenu>
+			<p:confirmDialog id="cfDltDlg"
+				message="Are you sure to delete this category?" header="Warning"
+				severity="alert" widgetVar="cfDltDlgWv">
+				<p:commandButton value="Yes"
+					actionListener="#{manageCategoriesBean.doDeleteCategory}"
+					update=":gblMsgForm:msg,cfgPanel" oncomplete="cfDltDlgWv.hide()" />
+				<p:commandButton value="Cancel" onclick="cfDltDlgWv.hide();" />
+			</p:confirmDialog>
+		</p:panel>
+	</h:form>
 </ui:composition>

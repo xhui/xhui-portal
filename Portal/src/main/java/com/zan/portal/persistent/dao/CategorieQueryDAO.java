@@ -16,7 +16,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Component;
 
-import com.zan.portal.model.Category;
+import com.zan.portal.model.DocCategory;
 
 @Component
 @Scope("prototype")
@@ -31,26 +31,26 @@ public class CategorieQueryDAO {
 		jdbc = new JdbcTemplate(dataSource);
 	}
 
-	public List<Category> query(int pageId) {
+	public List<DocCategory> query(int pageId) {
 		return jdbc.query(SQL, new Object[] { pageId },
 				new CategoryResultSetExtractor(pageId));
 	}
 
 	private static class CategoryResultSetExtractor implements
-			ResultSetExtractor<List<Category>> {
+			ResultSetExtractor<List<DocCategory>> {
 		private ResultSet rs;
 		private int pageId;
-		private Map<Integer, Category> categoryCache;
-		private List<Category> categories;
+		private Map<Integer, DocCategory> categoryCache;
+		private List<DocCategory> categories;
 
 		private CategoryResultSetExtractor(int pageId) {
-			this.categoryCache = new HashMap<Integer, Category>();
-			this.categories = new ArrayList<Category>();
+			this.categoryCache = new HashMap<Integer, DocCategory>();
+			this.categories = new ArrayList<DocCategory>();
 			this.pageId = pageId;
 		}
 
 		@Override
-		public List<Category> extractData(ResultSet rs) throws SQLException,
+		public List<DocCategory> extractData(ResultSet rs) throws SQLException,
 				DataAccessException {
 			this.rs = rs;
 			if (rs != null) {
@@ -61,12 +61,12 @@ public class CategorieQueryDAO {
 			return categories;
 		}
 
-		private Category buildCategory() throws SQLException {
+		private DocCategory buildCategory() throws SQLException {
 			int categoryId = rs.getInt("category_id");
 			// get category instance from cache.
-			Category c = categoryCache.get(categoryId);
+			DocCategory c = categoryCache.get(categoryId);
 			if (c == null) {
-				c = new Category();
+				c = new DocCategory();
 				c.setCategoryId(categoryId);
 				c.setName(rs.getString("category_name"));
 				c.setPageId(pageId);
@@ -75,14 +75,14 @@ public class CategorieQueryDAO {
 			return c;
 		}
 
-		private void buildCategoryTree(Category c) throws SQLException {
+		private void buildCategoryTree(DocCategory c) throws SQLException {
 			int parentId = rs.getInt("parent_category_id");
 			if (parentId == 0) {
 				// this is root node.
 				categories.add(c);
 			} else {
 				// this is child node.
-				Category parent = categoryCache.get(parentId);
+				DocCategory parent = categoryCache.get(parentId);
 				// should not be null, but if not find, ignore that.
 				if (parent != null) {
 					parent.addSubCategories(c);

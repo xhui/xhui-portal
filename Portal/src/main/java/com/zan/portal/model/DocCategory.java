@@ -4,18 +4,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Category implements Serializable {
+public class DocCategory implements Serializable {
 	private static final long serialVersionUID = 4227008286989552876L;
 	private int pageId;
 	private int categoryId;
 	private String name;
-	private List<Category> subCategories;
+	private List<DocCategory> subCategories;
 
-	public Category() {
-		subCategories = new ArrayList<Category>();
+	public DocCategory() {
+		subCategories = new ArrayList<DocCategory>();
 	}
 
-	public Category(Category c) {
+	public DocCategory(DocCategory c) {
 		this();
 		setPageId(c.getPageId());
 		setCategoryId(c.getCategoryId());
@@ -47,15 +47,15 @@ public class Category implements Serializable {
 		this.pageId = pageId;
 	}
 
-	public List<Category> getSubCategories() {
+	public List<DocCategory> getSubCategories() {
 		return subCategories;
 	}
 
-	public void addSubCategories(Category c) {
+	public void addSubCategories(DocCategory c) {
 		subCategories.add(c);
 	}
 
-	public void addAllSubCategories(List<Category> c) {
+	public void addAllSubCategories(List<DocCategory> c) {
 		subCategories.addAll(c);
 	}
 

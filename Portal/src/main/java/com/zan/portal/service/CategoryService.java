@@ -7,9 +7,9 @@ import javax.inject.Inject;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.zan.portal.model.Category;
+import com.zan.portal.model.DocCategory;
 import com.zan.portal.persistent.dao.CategorieQueryDAO;
-import com.zan.portal.persistent.dao.CategoryDeleteDAO;
+import com.zan.portal.persistent.dao.CategoryMaintainDAO;
 import com.zan.portal.persistent.dao.CategoryInsertDAO;
 import com.zan.portal.utils.error.ApplicationException;
 
@@ -24,22 +24,22 @@ public class CategoryService {
 	private CategoryInsertDAO insertDAO;
 
 	@Inject
-	private CategoryDeleteDAO updateDAO;
+	private CategoryMaintainDAO updateDAO;
 
-	public List<Category> getAvailableCategories(int pageId) {
+	public List<DocCategory> getAvailableCategories(int pageId) {
 		return queryDAO.query(pageId);
 	}
 
-	public void addNewCategory(Category newly, Category parent)
+	public void addNewCategory(DocCategory newly, DocCategory parent)
 			throws ApplicationException {
 		insertDAO.insert(newly, parent);
 	}
 
-	public void deleteCategory(Category c) {
+	public void deleteCategory(DocCategory c) {
 		updateDAO.delete(c);
 	}
 
-	public void updateCategory(Category c, Category parent) {
+	public void updateCategory(DocCategory c, DocCategory parent) {
 		updateDAO.update(c, parent);
 	}
 }

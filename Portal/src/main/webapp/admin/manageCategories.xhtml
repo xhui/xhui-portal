@@ -1,0 +1,25 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<h:form id="ctgDlgForm">
+		<p:dialog modal="true" widgetVar="manageCategories"
+			header="Manage Categories" id="mngCtgDlg">
+			<p:panel id="mngCtgDlgPanel">
+				<p:panelGrid id="mngCtgDlgInput" columns="2">
+					<h:outputLabel for="cName" value="Name:"></h:outputLabel>
+					<h:inputText id="cName" required="true"
+						value="#{manageCategoriesBean.category.name}"></h:inputText>
+				</p:panelGrid>
+				<br />
+				<p:commandButton id="SaveUpdate" value="Save"
+					actionListener="#{manageCategoriesBean.doUpdateCategory}"
+					update=":gblMsgForm:msg,:cfgForm:cfgPanel"
+					oncomplete="manageCategories.hide()" />
+				<p:commandButton id="cancelDlg" value="Cancel"
+					onclick="manageCategories.hide()" />
+			</p:panel>
+		</p:dialog>
+	</h:form>
+</ui:composition>

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
@@ -11,12 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.zan.portal.model.Category;
+import com.zan.portal.model.DocCategory;
+import com.zan.portal.model.Document;
 import com.zan.portal.model.Page;
 import com.zan.portal.service.CategoryService;
+import com.zan.portal.service.DocumentService;
 import com.zan.portal.service.PageService;
 import com.zan.portal.utils.Constant;
 import com.zan.portal.utils.ErrorCode;
+import com.zan.portal.utils.Utils;
 import com.zan.portal.utils.error.ApplicationException;
 import com.zan.portal.view.ViewUtils;
 
@@ -35,13 +39,18 @@ public class ManageCategoriesBean implements Serializable {
 	@Autowired
 	private transient PageService pageService;
 
-	private Category category;
+	@Autowired
+	private transient DocumentService documentService;
+
+	private DocCategory category;
 
 	private TreeNode rootNode;
 
 	private TreeNode selectedNode;
 
 	private boolean actionUpdate;
+
+	private Document documentEntry;
 
 	@PostConstruct
 	public void init() {
@@ -50,7 +59,7 @@ public class ManageCategoriesBean implements Serializable {
 
 	private void buildTree() {
 		List<Page> pages = pageService.getPages();
-		Category rootCategory = new Category();
+		DocCategory rootCategory = new DocCategory();
 		rootCategory.setCategoryId(PAGE_ITEM);
 		rootCategory.setName("Root");
 		rootCategory.setPageId(ROOT_PAGE);
@@ -58,7 +67,7 @@ public class ManageCategoriesBean implements Serializable {
 		rootNode.setExpanded(true);
 
 		for (Page p : pages) {
-			Category c = new Category();
+			DocCategory c = new DocCategory();
 			c.setName(p.getPageName());
 			c.setCategoryId(PAGE_ITEM);
 			c.setPageId(p.getPageId());
@@ -70,8 +79,8 @@ public class ManageCategoriesBean implements Serializable {
 		}
 	}
 
-	private void buildTree(TreeNode parentNode, List<Category> categories) {
-		for (Category c : categories) {
+	private void buildTree(TreeNode parentNode, List<DocCategory> categories) {
+		for (DocCategory c : categories) {
 			TreeNode node = new DefaultTreeNode(c, parentNode);
 			node.setExpanded(true);
 			buildTree(node, c.getSubCategories());
@@ -79,31 +88,53 @@ public class ManageCategoriesBean implements Serializable {
 	}
 
 	public void preAddNewCategory() {
-		category = new Category();
+		category = new DocCategory();
 		actionUpdate = false;
 	}
 
-	public void addNewCategory() throws ApplicationException {
-		manageCategory(new CategoryHandler() {
+	public void preUpdateNewCategory() {
+		actionUpdate = true;
+		if (selectedNode != null) {
+			DocCategory original = (DocCategory) selectedNode.getData();
+			category = new DocCategory(original);
+		} else {
+			ViewUtils.showFailMessage(ErrorCode.MC_NOTHING_SELECTED);
+		}
+	}
+
+	public void doUpdateCategory() throws ApplicationException {
+		preManage(new ManageHandler() {
 			@Override
 			public boolean handle() throws ApplicationException {
-				Category parent = (Category) selectedNode.getData();
-				category.setPageId(parent.getPageId());
-				if (parent.getCategoryId() == PAGE_ITEM) {
-					categoryService.addNewCategory(category, null);
+				if (actionUpdate) {
+					if (category.getCategoryId() == PAGE_ITEM) {
+						ViewUtils.showInfoMessage(Constant.MC_CANNOT_EDIT_ROOT);
+					} else {
+						DocCategory parent = (null == selectedNode.getParent()) ? null
+								: (DocCategory) selectedNode.getParent()
+										.getData();
+						categoryService.updateCategory(category, parent);
+						return true;
+					}
 				} else {
-					categoryService.addNewCategory(category, parent);
+					DocCategory parent = (DocCategory) selectedNode.getData();
+					category.setPageId(parent.getPageId());
+					if (parent.getCategoryId() == PAGE_ITEM) {
+						categoryService.addNewCategory(category, null);
+					} else {
+						categoryService.addNewCategory(category, parent);
+					}
 				}
-				return true;
+				return false;
 			}
 		});
 	}
 
-	public void deleteCategory() throws ApplicationException {
-		manageCategory(new CategoryHandler() {
+	public void doDeleteCategory() throws ApplicationException {
+		preManage(new ManageHandler() {
 			@Override
 			public boolean handle() {
-				Category c = (Category) selectedNode.getData();
+				DocCategory c = (DocCategory) selectedNode.getData();
 				if (c.getCategoryId() == PAGE_ITEM) {
 					ViewUtils.showInfoMessage(Constant.MC_CANNOT_EDIT_ROOT);
 				} else {
@@ -120,36 +151,9 @@ public class ManageCategoriesBean implements Serializable {
 		});
 	}
 
-	public void preUpdateNewCategory() {
-		actionUpdate = true;
+	private void preManage(ManageHandler h) throws ApplicationException {
 		if (selectedNode != null) {
-			Category original = (Category) selectedNode.getData();
-			category = new Category(original);
-		} else {
-			ViewUtils.showFailMessage(ErrorCode.MC_NOTHING_SELECTED);
-		}
-	}
-
-	public void updateNewCategory() throws ApplicationException {
-		manageCategory(new CategoryHandler() {
-			@Override
-			public boolean handle() {
-				if (category.getCategoryId() == PAGE_ITEM) {
-					ViewUtils.showInfoMessage(Constant.MC_CANNOT_EDIT_ROOT);
-				} else {
-					Category parent = (null == selectedNode.getParent()) ? null
-							: (Category) selectedNode.getParent().getData();
-					categoryService.updateCategory(category, parent);
-					return true;
-				}
-				return false;
-			}
-		});
-	}
-
-	private void manageCategory(CategoryHandler h) throws ApplicationException {
-		if (selectedNode != null) {
-			Category c = (Category) selectedNode.getData();
+			DocCategory c = (DocCategory) selectedNode.getData();
 			if (c.getPageId() == ROOT_PAGE) {
 				ViewUtils.showInfoMessage(Constant.MC_CANNOT_EDIT_ROOT);
 			} else {
@@ -164,15 +168,42 @@ public class ManageCategoriesBean implements Serializable {
 		}
 	}
 
-	private static interface CategoryHandler {
+	public void preUpdateDoc() {
+		if (selectedNode != null) {
+			DocCategory original = (DocCategory) selectedNode.getData();
+			category = new DocCategory(original);
+			documentEntry = new Document();
+		} else {
+			ViewUtils.showFailMessage(ErrorCode.MC_NOTHING_SELECTED);
+		}
+	}
+
+	public void doUpdateDoc() throws ApplicationException {
+		preManage(new ManageHandler() {
+			@Override
+			public boolean handle() {
+				DocCategory c = (DocCategory) selectedNode.getData();
+				if (c.getCategoryId() == PAGE_ITEM) {
+					ViewUtils.showInfoMessage(Constant.MC_CANNOT_EDIT_ROOT);
+				} else {
+					documentEntry.setCategory(c);
+					documentService.addNewDoc(documentEntry);
+					return true;
+				}
+				return false;
+			}
+		});
+	}
+
+	private static interface ManageHandler {
 		boolean handle() throws ApplicationException;
 	}
 
-	public void setCategory(Category category) {
+	public void setCategory(DocCategory category) {
 		this.category = category;
 	}
 
-	public Category getCategory() {
+	public DocCategory getCategory() {
 		return category;
 	}
 
@@ -188,7 +219,12 @@ public class ManageCategoriesBean implements Serializable {
 		this.selectedNode = selectedNode;
 	}
 
-	public boolean isActionUpdate() {
-		return actionUpdate;
+	public Document getDocumentEntry() {
+		return documentEntry;
 	}
+
+	public void setDocumentEntry(Document documentEntry) {
+		this.documentEntry = documentEntry;
+	}
+
 }

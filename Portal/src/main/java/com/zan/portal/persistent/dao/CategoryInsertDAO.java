@@ -13,7 +13,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 
-import com.zan.portal.model.Category;
+import com.zan.portal.model.DocCategory;
 import com.zan.portal.utils.ErrorCode;
 import com.zan.portal.utils.error.ApplicationException;
 
@@ -30,13 +30,12 @@ public class CategoryInsertDAO {
 				.withTableName("doc_categories");
 	}
 
-	public void insert(Category newly, Category parent)
+	public void insert(DocCategory newly, DocCategory parent)
 			throws ApplicationException {
 		Map<String, Object> parameters = new HashMap<String, Object>(3);
 		parameters.put("category_name", newly.getName());
-		if (null != parent) {
-			parameters.put("parent_category_id", parent.getCategoryId());
-		}
+		parameters.put("parent_category_id",
+				null != parent ? parent.getCategoryId() : 0);
 		parameters.put("page_id", newly.getPageId());
 		try {
 			insertActor.execute(parameters);
