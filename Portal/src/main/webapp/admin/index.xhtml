@@ -17,8 +17,9 @@
 		href='#{appBean.resourcePath}/css/style.css' media='all' />
 	<h:outputScript library="primefaces" name="jquery/jquery.js" />
 	<script type="text/javascript"
-		src="#{appBean.resourcePath}/js/global.js"></script>
-	<script src="/ckeditor/ckeditor.js"></script>
+		src="#{appBean.resourcePath}/js/global.js" />
+	<style type="text/css">
+</style>
 </h:head>
 
 <h:body>
@@ -28,9 +29,14 @@
 			<h:form id="gblMsgForm">
 				<p:growl id="msg" showSummary="true" showDetail="true" />
 			</h:form>
-			<ui:include src="categories.xhtml" />
-			<ui:include src="manageCategories.xhtml" />
-			<ui:include src="editDoc.xhtml"></ui:include>
+			<div class="admin-left-wrapper">
+				<ui:include src="categories.xhtml" />
+				<ui:include src="manageCategories.xhtml" />
+				<ui:include src="editDoc.xhtml" />
+				<ui:include src="docs.xhtml" />
+			</div>
+			<div class="admin-right-wrapper"></div>
+			<div class="clear" />
 		</div>
 		<div class="footer-wrapper"></div>
 	</div>

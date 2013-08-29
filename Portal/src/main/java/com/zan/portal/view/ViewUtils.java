@@ -9,6 +9,19 @@ import com.zan.portal.utils.Utils;
 
 public abstract class ViewUtils {
 
+	public static int transferInteger(String s) {
+		if (null != s) {
+			s = s.trim();
+			s = s.replaceAll("[#&=]", "");
+			try {
+				return Integer.parseInt(s);
+			} catch (NumberFormatException ex) {
+				ex.printStackTrace();
+			}
+		}
+		return -1;
+	}
+
 	public static void showFailMessage(ErrorCode code) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 				"Failed", Utils.getErrorMessage(code));

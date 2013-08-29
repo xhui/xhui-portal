@@ -30,16 +30,12 @@
 			</table>
 			<p:editor id="docContent"
 				value="#{manageCategoriesBean.documentEntry.docContent}" width="900" />
-			<!-- <textarea id="docEditor" name="docEditor">#{manageCategoriesBean.documentEntry.docContent}</textarea> -->
 			<p:commandButton id="docSave" value="Save"
 				onsuccess="updateDoc.hide()"
 				actionListener="#{ manageCategoriesBean.doUpdateDoc }">
 			</p:commandButton>
 			<p:commandButton id="docCancel" value="Cancel"
 				onclick="updateDoc.hide()"></p:commandButton>
-			<!-- <script type="text/javascript">
-				CKEDITOR.replace('docForm:docContent');
-			</script> -->
 		</p:dialog>
 	</h:form>
 </ui:composition>

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.context.FacesContext;
 
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
@@ -20,7 +19,6 @@ import com.zan.portal.service.DocumentService;
 import com.zan.portal.service.PageService;
 import com.zan.portal.utils.Constant;
 import com.zan.portal.utils.ErrorCode;
-import com.zan.portal.utils.Utils;
 import com.zan.portal.utils.error.ApplicationException;
 import com.zan.portal.view.ViewUtils;
 
@@ -51,6 +49,8 @@ public class ManageCategoriesBean implements Serializable {
 	private boolean actionUpdate;
 
 	private Document documentEntry;
+
+	private List<Document> documents;
 
 	@PostConstruct
 	public void init() {
@@ -195,6 +195,16 @@ public class ManageCategoriesBean implements Serializable {
 		});
 	}
 
+	public void preShowDocs() {
+		if (selectedNode != null) {
+			DocCategory original = (DocCategory) selectedNode.getData();
+			category = new DocCategory(original);
+			
+		} else {
+			ViewUtils.showFailMessage(ErrorCode.MC_NOTHING_SELECTED);
+		}
+	}
+
 	private static interface ManageHandler {
 		boolean handle() throws ApplicationException;
 	}
@@ -225,6 +235,10 @@ public class ManageCategoriesBean implements Serializable {
 
 	public void setDocumentEntry(Document documentEntry) {
 		this.documentEntry = documentEntry;
+	}
+
+	public List<Document> getDocuments() {
+		return documents;
 	}
 
 }

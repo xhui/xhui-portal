@@ -1,5 +1,6 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
@@ -7,15 +8,19 @@
 		<c:choose>
 			<c:when test="#{category.containSubCategories}">
 				<p:submenu label="#{category.name}"
-					styleClass="#{isFirstLevel == 'true'?'sub-menu':' '}">
-					<ui:include src="leftMenu.xhtml">
+					id="subMenu#{category.categoryId}"
+					styleClass="#{isFirstLevel == 'true'?'sub-menu MENU_LINK':' MENU_LINK'}">
+					<ui:include src="leftSubMenu.xhtml">
 						<ui:param name="isFirstLevel" value=""></ui:param>
 					</ui:include>
 				</p:submenu>
 			</c:when>
 			<c:otherwise>
-				<p:menuitem value="#{category.name}"
-					styleClass="#{isFirstLevel == 'true'?'sub-menu':' '}" />
+				<p:menuitem styleClass="#{isFirstLevel == 'true'?'sub-menu':' '}"
+					value="#{category.name}"
+					url="/page.xhtml?pg=#{pageBean.pageId}&amp;cid=#{category.categoryId}"
+					ajax="false">
+				</p:menuitem>
 			</c:otherwise>
 		</c:choose>
 	</c:forEach>

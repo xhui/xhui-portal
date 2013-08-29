@@ -25,6 +25,10 @@
 					actionListener="#{manageCategoriesBean.preUpdateDoc}"
 					update=":gblMsgForm:msg,:docForm:updtDoc">
 				</p:menuitem>
+				<p:menuitem value="Show Articles" oncomplete="docListwv.show()"
+					actionListener="#{manageCategoriesBean.preShowDocs}"
+					update=":gblMsgForm:msg,:docListForm:docList">
+				</p:menuitem>
 			</p:contextMenu>
 			<p:confirmDialog id="cfDltDlg"
 				message="Are you sure to delete this category?" header="Warning"

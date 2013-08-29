@@ -4,10 +4,10 @@ $.NAV = {
 		window.location.href = $.NAV._Prefix + "/index.xhtml";
 	},
 	jumpToLife : function() {
-		window.location.href = $.NAV._Prefix + "/life.xhtml";
+		window.location.href = $.NAV._Prefix + "/page.xhtml?pg=1";
 	},
 	jumpToCareer : function() {
-		window.location.href = $.NAV._Prefix + "/career.xhtml";
+		window.location.href = $.NAV._Prefix + "/page.xhtml?pg=2";
 	},
 	jumpToContact : function() {
 		window.location.href = $.NAV._Prefix + "/contact.xhtml";
