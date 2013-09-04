@@ -1,6 +1,7 @@
 package com.zan.portal.view.admin;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -199,7 +200,9 @@ public class ManageCategoriesBean implements Serializable {
 		if (selectedNode != null) {
 			DocCategory original = (DocCategory) selectedNode.getData();
 			category = new DocCategory(original);
-			
+			documents = new ArrayList<Document>();
+			documents.addAll(documentService.getDocuments(category
+					.getCategoryId()));
 		} else {
 			ViewUtils.showFailMessage(ErrorCode.MC_NOTHING_SELECTED);
 		}

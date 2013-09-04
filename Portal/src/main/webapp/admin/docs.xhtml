@@ -7,7 +7,22 @@
 	<h:form id="docListForm">
 		<p:dialog modal="true" widgetVar="docListwv" header="Manage Documents"
 			id="docList">
-
+			<c:forEach items="#{manageCategoriesBean.documents}" var="document">
+				<div>
+					<H3>
+						<h:outputLink value="/#{document.docId}">
+							<h:outputText value="#{document.docTitle}" />
+						</h:outputLink>
+					</H3>
+					<DIV>
+						<h:outputText value="#{document.lastUpdate}" />
+					</DIV>
+					<P>
+						<h:outputText value="#{document.docDesc}" />
+					</P>
+					<HR />
+				</div>
+			</c:forEach>
 		</p:dialog>
 	</h:form>
 </ui:composition>
