@@ -8,7 +8,8 @@
 		<c:choose>
 			<c:when test="#{category.containSubCategories}">
 				<p:submenu label="#{category.name}"
-					id="subMenu#{category.categoryId}"
+					id="subMenu_p#{pageBean.pageId}c#{category.categoryId}"
+					onclick="test"
 					styleClass="#{isFirstLevel == 'true'?'sub-menu MENU_LINK':' MENU_LINK'}">
 					<ui:include src="leftSubMenu.xhtml">
 						<ui:param name="isFirstLevel" value=""></ui:param>

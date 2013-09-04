@@ -12,6 +12,10 @@ $.NAV = {
 	jumpToContact : function() {
 		window.location.href = $.NAV._Prefix + "/contact.xhtml";
 	},
+	buildPageNav : function(pid, cid) {
+		window.location.href = $.NAV._Prefix + "/page.xhtml?pg=" + pid
+				+ "&cid=" + cid;
+	},
 	prepareNav : function() {
 		var href = window.location.href;
 		var navId = 'home';
