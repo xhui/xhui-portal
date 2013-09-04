@@ -109,6 +109,10 @@ h3 {
 	margin: 0 50px
 }
 
+.currentNav {
+	font-weight: bolder;
+}
+
 .nav-wrapper h1 {
 	margin: 10px 0 0 10px;
 	color: white;

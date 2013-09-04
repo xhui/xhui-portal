@@ -6,15 +6,18 @@
 			<h1>Leading The Wind</h1>
 			<div class="menu-wrapper">
 				<ul class="menu-item">
-					<li class="current_page_item"><a id="hd_home" href="#">Home</a></li>
-					<li><a id="hd_life" href="javascript:void(0);">Life</a></li>
-					<li><a id="hd_career" href="javascript:void(0);">Career</a></li>
-					<li><a id="hd_contact" href="javascript:void(0);">Contact</a></li>
+					<li><a id="hd_home" href="#" onclick="$.NAV.jumpToIndex();">Home</a></li>
+					<li><a id="hd_life" href="#" onclick="$.NAV.jumpToLife();">Life</a></li>
+					<li><a id="hd_career" href="#" onclick="$.NAV.jumpToCareer();">Career</a></li>
+					<li><a id="hd_contact" href="#"
+						onclick="$.NAV.jumpToContact();">Contact</a></li>
 				</ul>
 			</div>
 		</div>
 		<div class='slider-wrapper #{generalHeaderStyle}'>
-			<img src="http://farm8.staticflickr.com/7353/9474147782_d20875587e_b.jpg" width="960" />
+			<img
+				src="http://farm8.staticflickr.com/7353/9474147782_d20875587e_b.jpg"
+				width="960" />
 		</div>
 	</div>
 </ui:component>

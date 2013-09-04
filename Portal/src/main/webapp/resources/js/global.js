@@ -12,34 +12,26 @@ $.NAV = {
 	jumpToContact : function() {
 		window.location.href = $.NAV._Prefix + "/contact.xhtml";
 	},
-	prepareNav : function(eName) {
-		var hel = $("#hd_" + eName).parent();
-		hel.addClass("selected");
-	},
-	navHome : function() {
-		$.NAV.prepareNav("home");
-	},
-	navLife : function() {
-		$.NAV.prepareNav("life");
-	},
-	navCareer : function() {
-		$.NAV.prepareNav("career");
-	},
-	navContact : function() {
-		$.NAV.prepareNav("contact");
+	prepareNav : function() {
+		var href = window.location.href;
+		var navId = 'home';
+		if (href.search('/page.xhtml[?]pg=1') > -1) {
+			navId = 'life';
+		} else if (href.search('/page.xhtml[?]pg=2') > -1) {
+			navId = 'career';
+		} else if (href.search('/contact.xhtml') > -1) {
+			navId = 'contact';
+		}
+		var hel = $("#hd_" + navId).parent();
+		hel.addClass("currentNav");
 	}
 };
-$.G = {
+$.XPT = {
 
 };
 $(document).ready(function() {
-	// prepare header navigation
-	$("#hd_index").on("click", $.NAV.jumpToIndex);
-	$("#hd_home").on("click", $.NAV.jumpToIndex);
-	$("#hd_life").on("click", $.NAV.jumpToLife);
-	$("#hd_career").on("click", $.NAV.jumpToCareer);
-	$("#hd_contact").on("click", $.NAV.jumpToContact);
-
 	// prepare footer
 	$("#ft_cyYear").html(new Date().getFullYear());
+
+	$.NAV.prepareNav();
 });
