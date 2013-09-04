@@ -7,22 +7,27 @@
 	<h:form id="docListForm">
 		<p:dialog modal="true" widgetVar="docListwv" header="Manage Documents"
 			id="docList">
-			<c:forEach items="#{manageCategoriesBean.documents}" var="document">
-				<div>
-					<H3>
-						<h:outputLink value="/#{document.docId}">
-							<h:outputText value="#{document.docTitle}" />
-						</h:outputLink>
-					</H3>
-					<DIV>
-						<h:outputText value="#{document.lastUpdate}" />
-					</DIV>
-					<P>
-						<h:outputText value="#{document.docDesc}" />
-					</P>
-					<HR />
-				</div>
-			</c:forEach>
+			<p:dataTable id="docs" value="#{manageCategoriesBean.documents}"
+				var="document">
+				<p:column headerText="ID">
+					<h:outputText value="#{document.docId}" />
+				</p:column>
+				<p:column headerText="Title">
+					<h:outputText value="#{document.docTitle}" />
+				</p:column>
+				<p:column headerText="Last Update">
+					<h:outputText value="#{document.lastUpdate}">
+						<f:convertDateTime pattern="yyyy-MM-dd HH:MM" />
+					</h:outputText>
+				</p:column>
+				<p:column>
+					<p:commandButton oncomplete="updateDoc.show()"
+						actionListener="#{manageCategoriesBean.preUpdateDoc(document.docId)}"
+						update=":gblMsgForm:msg,:docForm:updtDoc" icon="ui-icon-pencil"
+						title="Update" />
+					<p:commandButton update="" icon="ui-icon-trash" title="Delete" />
+				</p:column>
+			</p:dataTable>
 		</p:dialog>
 	</h:form>
 </ui:composition>

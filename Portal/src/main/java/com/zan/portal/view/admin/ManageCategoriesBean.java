@@ -179,6 +179,11 @@ public class ManageCategoriesBean implements Serializable {
 		}
 	}
 
+	public void preUpdateDoc(int id) {
+		// category is already selected.
+		documentEntry = documentService.queryDocument(id);
+	}
+
 	public void doUpdateDoc() throws ApplicationException {
 		preManage(new ManageHandler() {
 			@Override

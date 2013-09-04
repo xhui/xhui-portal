@@ -3,6 +3,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
 	template="/templates/generalPageTemplate.xhtml">
 	<ui:define name="head_content">
 		<script type="text/javascript"
@@ -20,7 +21,9 @@
 							</h:outputLink>
 						</H3>
 						<DIV>
-							<h:outputText value="#{document.lastUpdate}" />
+							<h:outputText value="#{document.lastUpdate}">
+								<f:convertDateTime pattern="yyyy-MM-dd HH:MM" />
+							</h:outputText>
 						</DIV>
 						<P>
 							<h:outputText value="#{document.docDesc}" />
