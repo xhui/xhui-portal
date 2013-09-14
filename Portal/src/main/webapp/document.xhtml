@@ -11,18 +11,16 @@
 	</ui:define>
 	<ui:define name="general_content">
 		<p:panel>
-			<H3>
+			<H2>
 				<h:outputText value="#{documentBean.queriedPage.docTitle}" />
-			</H3>
-			<DIV>
+			</H2>
+			<DIV class="docUpdateTime">
 				<h:outputText value="#{documentBean.queriedPage.lastUpdate}">
 					<f:convertDateTime pattern="yyyy-MM-dd HH:MM" />
 				</h:outputText>
 			</DIV>
-			<P>
-				<h:outputText value="#{documentBean.queriedPage.docContent}"
-					escape="false" />
-			</P>
+			<h:outputText value="#{documentBean.queriedPage.docContent}"
+				escape="false" />
 		</p:panel>
 	</ui:define>
 </ui:composition>

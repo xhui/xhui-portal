@@ -239,3 +239,7 @@ h3 {
 .adminWrapper {
 	width: 99% !important;
 }
+
+.docUpdateTime{
+	margin: 10px 0px;
+}
