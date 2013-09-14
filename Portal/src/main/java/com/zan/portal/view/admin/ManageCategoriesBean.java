@@ -51,6 +51,8 @@ public class ManageCategoriesBean implements Serializable {
 
 	private Document documentEntry;
 
+	private int deleteDocId;
+
 	private List<Document> documents;
 
 	@PostConstruct
@@ -86,6 +88,12 @@ public class ManageCategoriesBean implements Serializable {
 			node.setExpanded(true);
 			buildTree(node, c.getSubCategories());
 		}
+	}
+
+	private void refreshDocuments() {
+		documents = new ArrayList<Document>();
+		documents
+				.addAll(documentService.getDocuments(category.getCategoryId()));
 	}
 
 	public void preAddNewCategory() {
@@ -169,11 +177,22 @@ public class ManageCategoriesBean implements Serializable {
 		}
 	}
 
-	public void preUpdateDoc() {
+	public void preShowDocs() {
+		if (selectedNode != null) {
+			DocCategory original = (DocCategory) selectedNode.getData();
+			category = new DocCategory(original);
+			refreshDocuments();
+		} else {
+			ViewUtils.showFailMessage(ErrorCode.MC_NOTHING_SELECTED);
+		}
+	}
+
+	public void preAddDoc() {
 		if (selectedNode != null) {
 			DocCategory original = (DocCategory) selectedNode.getData();
 			category = new DocCategory(original);
 			documentEntry = new Document();
+			documentEntry.setCategory(category);
 		} else {
 			ViewUtils.showFailMessage(ErrorCode.MC_NOTHING_SELECTED);
 		}
@@ -192,8 +211,13 @@ public class ManageCategoriesBean implements Serializable {
 				if (c.getCategoryId() == PAGE_ITEM) {
 					ViewUtils.showInfoMessage(Constant.MC_CANNOT_EDIT_ROOT);
 				} else {
-					documentEntry.setCategory(c);
-					documentService.addNewDoc(documentEntry);
+					documentEntry.setCategory(new DocCategory(c));
+					if (documentEntry.getDocId() > 0) {
+						documentService.updateDocument(documentEntry);
+					} else {
+						documentService.addNewDoc(documentEntry);
+					}
+					refreshDocuments();
 					return true;
 				}
 				return false;
@@ -201,16 +225,13 @@ public class ManageCategoriesBean implements Serializable {
 		});
 	}
 
-	public void preShowDocs() {
-		if (selectedNode != null) {
-			DocCategory original = (DocCategory) selectedNode.getData();
-			category = new DocCategory(original);
-			documents = new ArrayList<Document>();
-			documents.addAll(documentService.getDocuments(category
-					.getCategoryId()));
-		} else {
-			ViewUtils.showFailMessage(ErrorCode.MC_NOTHING_SELECTED);
-		}
+	public void preDeleteDoc(int id) {
+		deleteDocId = id;
+	}
+
+	public void doDeleteDoc() throws ApplicationException {
+		documentService.deleteDocument(deleteDocId);
+		refreshDocuments();
 	}
 
 	private static interface ManageHandler {

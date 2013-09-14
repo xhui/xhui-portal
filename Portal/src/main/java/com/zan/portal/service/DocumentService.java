@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.zan.portal.model.Document;
 import com.zan.portal.persistent.dao.DocInsertDAO;
+import com.zan.portal.persistent.dao.DocumentMaintainDAO;
 import com.zan.portal.persistent.dao.DocumentQueryDAO;
 import com.zan.portal.persistent.dao.DocumentsQueryDAO;
 
@@ -25,6 +26,9 @@ public class DocumentService {
 	@Inject
 	private DocumentQueryDAO docQueryDao;
 
+	@Inject
+	private DocumentMaintainDAO docManageDao;
+
 	public void addNewDoc(Document doc) {
 		docInsertDao.insert(doc);
 	}
@@ -35,5 +39,13 @@ public class DocumentService {
 
 	public Document queryDocument(int docId) {
 		return docQueryDao.findObject(docId);
+	}
+
+	public void deleteDocument(int docId) {
+		docManageDao.delete(docId);
+	}
+
+	public void updateDocument(Document doc) {
+		docManageDao.update(doc);
 	}
 }

@@ -6,28 +6,44 @@
 	xmlns:p="http://primefaces.org/ui">
 	<h:form id="docListForm">
 		<p:dialog modal="true" widgetVar="docListwv" header="Manage Documents"
-			id="docList">
+			width="900" id="docList">
+			<p:commandButton value="Add New Article"
+				oncomplete="updateDoc.show()"
+				actionListener="#{manageCategoriesBean.preAddDoc}"
+				update=":gblMsgForm:msg,:docForm:updtDoc" />
 			<p:dataTable id="docs" value="#{manageCategoriesBean.documents}"
 				var="document">
-				<p:column headerText="ID">
+				<p:column headerText="ID" width="5%">
 					<h:outputText value="#{document.docId}" />
 				</p:column>
 				<p:column headerText="Title">
 					<h:outputText value="#{document.docTitle}" />
 				</p:column>
-				<p:column headerText="Last Update">
+				<p:column headerText="Last Update" width="15%">
 					<h:outputText value="#{document.lastUpdate}">
 						<f:convertDateTime pattern="yyyy-MM-dd HH:MM" />
 					</h:outputText>
 				</p:column>
-				<p:column>
+				<p:column width="10%">
 					<p:commandButton oncomplete="updateDoc.show()"
 						actionListener="#{manageCategoriesBean.preUpdateDoc(document.docId)}"
 						update=":gblMsgForm:msg,:docForm:updtDoc" icon="ui-icon-pencil"
 						title="Update" />
-					<p:commandButton update="" icon="ui-icon-trash" title="Delete" />
+					<p:commandButton
+						actionListener="#{manageCategoriesBean.preDeleteDoc(document.docId)}"
+						oncomplete="docDltDlgWv.show()" icon="ui-icon-trash"
+						title="Delete" />
 				</p:column>
 			</p:dataTable>
 		</p:dialog>
+		<p:confirmDialog id="docDltDlg"
+			message="Are you sure to delete this article?" header="Warning"
+			severity="alert" widgetVar="docDltDlgWv">
+			<p:commandButton value="Yes"
+				actionListener="#{manageCategoriesBean.doDeleteDoc}"
+				update=":gblMsgForm:msg,docs" oncomplete="docDltDlgWv.hide()">
+			</p:commandButton>
+			<p:commandButton value="Cancel" onclick="docDltDlgWv.hide();" />
+		</p:confirmDialog>
 	</h:form>
 </ui:composition>

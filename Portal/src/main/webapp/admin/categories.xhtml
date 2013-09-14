@@ -14,18 +14,17 @@
 				</p:treeNode>
 			</p:tree>
 			<p:contextMenu id="cfgCtm" for="cfgTree">
-				<p:menuitem value="Add Child" oncomplete="manageCategories.show()"
+				<p:menuitem value="Add Category"
+					oncomplete="manageCategories.show()"
 					actionListener="#{manageCategoriesBean.preAddNewCategory}"
 					update=":gblMsgForm:msg,:ctgDlgForm:mngCtgDlgPanel" />
-				<p:menuitem value="Update" oncomplete="manageCategories.show()"
+				<p:menuitem value="Update Category"
+					oncomplete="manageCategories.show()"
 					actionListener="#{manageCategoriesBean.preUpdateNewCategory}"
 					update=":gblMsgForm:msg,:ctgDlgForm:mngCtgDlgPanel" />
-				<p:menuitem value="Delete" onclick="cfDltDlgWv.show()" id="dltMenu" />
-				<p:menuitem value="Add New Article" oncomplete="updateDoc.show()"
-					actionListener="#{manageCategoriesBean.preUpdateDoc}"
-					update=":gblMsgForm:msg,:docForm:updtDoc">
-				</p:menuitem>
-				<p:menuitem value="Show Articles" oncomplete="docListwv.show()"
+				<p:menuitem value="Delete Category" onclick="cfDltDlgWv.show()"
+					id="dltMenu" />
+				<p:menuitem value="Manage Articles" oncomplete="docListwv.show()"
 					actionListener="#{manageCategoriesBean.preShowDocs}"
 					update=":gblMsgForm:msg,:docListForm:docList">
 				</p:menuitem>
