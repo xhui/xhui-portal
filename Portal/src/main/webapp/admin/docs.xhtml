@@ -26,13 +26,19 @@
 				</p:column>
 				<p:column width="10%">
 					<p:commandButton oncomplete="updateDoc.show()"
-						actionListener="#{manageCategoriesBean.preUpdateDoc(document.docId)}"
+						action="#{manageCategoriesBean.preUpdateDoc}"
 						update=":gblMsgForm:msg,:docForm:updtDoc" icon="ui-icon-pencil"
-						title="Update" />
-					<p:commandButton
-						actionListener="#{manageCategoriesBean.preDeleteDoc(document.docId)}"
-						oncomplete="docDltDlgWv.show()" icon="ui-icon-trash"
-						title="Delete" />
+						title="Update">
+						<f:setPropertyActionListener
+							target="#{manageCategoriesBean.updateDocId}"
+							value="#{document.docId}" />
+					</p:commandButton>
+					<p:commandButton oncomplete="docDltDlgWv.show()"
+						icon="ui-icon-trash" title="Delete">
+						<f:setPropertyActionListener
+							target="#{manageCategoriesBean.updateDocId}"
+							value="#{document.docId}" />
+					</p:commandButton>
 				</p:column>
 			</p:dataTable>
 		</p:dialog>

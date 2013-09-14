@@ -51,7 +51,7 @@ public class ManageCategoriesBean implements Serializable {
 
 	private Document documentEntry;
 
-	private int deleteDocId;
+	private int updateDocId;
 
 	private List<Document> documents;
 
@@ -198,9 +198,9 @@ public class ManageCategoriesBean implements Serializable {
 		}
 	}
 
-	public void preUpdateDoc(int id) {
+	public void preUpdateDoc() {
 		// category is already selected.
-		documentEntry = documentService.queryDocument(id);
+		documentEntry = documentService.queryDocument(updateDocId);
 	}
 
 	public void doUpdateDoc() throws ApplicationException {
@@ -225,12 +225,8 @@ public class ManageCategoriesBean implements Serializable {
 		});
 	}
 
-	public void preDeleteDoc(int id) {
-		deleteDocId = id;
-	}
-
 	public void doDeleteDoc() throws ApplicationException {
-		documentService.deleteDocument(deleteDocId);
+		documentService.deleteDocument(updateDocId);
 		refreshDocuments();
 	}
 
@@ -270,4 +266,7 @@ public class ManageCategoriesBean implements Serializable {
 		return documents;
 	}
 
+	public void setUpdateDocId(int updateDocId) {
+		this.updateDocId = updateDocId;
+	}
 }
