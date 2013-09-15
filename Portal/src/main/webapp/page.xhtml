@@ -24,6 +24,10 @@
 							<h:outputText value="#{document.lastUpdate}">
 								<f:convertDateTime pattern="yyyy-MM-dd HH:MM" />
 							</h:outputText>
+							<c:forEach items="#{document.category.parents}" var="category">
+								<h:outputText value="#{category.name} > " />
+							</c:forEach>
+							<h:outputText value="#{document.category.name}" />
 						</DIV>
 						<h:outputText value="#{document.docDesc}" />
 						<HR />

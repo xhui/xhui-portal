@@ -9,6 +9,7 @@ public class DocCategory implements Serializable {
 	private int pageId;
 	private int categoryId;
 	private String name;
+	private DocCategory parentCategory;
 	private List<DocCategory> subCategories;
 
 	public DocCategory() {
@@ -61,5 +62,23 @@ public class DocCategory implements Serializable {
 
 	public boolean isContainSubCategories() {
 		return !subCategories.isEmpty();
+	}
+
+	public DocCategory getParentCategory() {
+		return parentCategory;
+	}
+
+	public void setParentCategory(DocCategory parentCategory) {
+		this.parentCategory = parentCategory;
+	}
+
+	public List<DocCategory> getParents() {
+		List<DocCategory> categories = new ArrayList<>();
+		DocCategory c = parentCategory;
+		while (null != c) {
+			c = c.getParentCategory();
+			categories.add(c);
+		}
+		return categories;
 	}
 }

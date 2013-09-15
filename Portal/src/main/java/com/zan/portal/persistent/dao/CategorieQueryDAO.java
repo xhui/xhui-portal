@@ -79,12 +79,14 @@ public class CategorieQueryDAO {
 			int parentId = rs.getInt("parent_category_id");
 			if (parentId == 0) {
 				// this is root node.
+				c.setParentCategory(null);
 				categories.add(c);
 			} else {
 				// this is child node.
 				DocCategory parent = categoryCache.get(parentId);
 				// should not be null, but if not find, ignore that.
 				if (parent != null) {
+					c.setParentCategory(parent);
 					parent.addSubCategories(c);
 				}
 			}

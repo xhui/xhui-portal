@@ -92,8 +92,7 @@ public class ManageCategoriesBean implements Serializable {
 
 	private void refreshDocuments() {
 		documents = new ArrayList<Document>();
-		documents
-				.addAll(documentService.getDocuments(category.getCategoryId()));
+		documents.addAll(documentService.getDirectChildDocuments(category));
 	}
 
 	public void preAddNewCategory() {
