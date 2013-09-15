@@ -20,14 +20,12 @@
 								<h:outputText value="#{document.docTitle}" />
 							</h:outputLink>
 						</H3>
-						<DIV>
+						<DIV class="docUpdateTime">
 							<h:outputText value="#{document.lastUpdate}">
 								<f:convertDateTime pattern="yyyy-MM-dd HH:MM" />
 							</h:outputText>
 						</DIV>
-						<P>
-							<h:outputText value="#{document.docDesc}" />
-						</P>
+						<h:outputText value="#{document.docDesc}" />
 						<HR />
 					</div>
 				</c:forEach>

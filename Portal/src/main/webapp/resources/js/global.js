@@ -19,9 +19,11 @@ $.NAV = {
 	prepareNav : function() {
 		var href = window.location.href;
 		var navId = 'home';
-		if (href.search('/page.xhtml[?]pg=1') > -1) {
+		if (href.search('/page.xhtml[?]pg=1') > -1
+				|| href.search('/document.xhtml[?]pg=1') > -1) {
 			navId = 'life';
-		} else if (href.search('/page.xhtml[?]pg=2') > -1) {
+		} else if (href.search('/page.xhtml[?]pg=2') > -1
+				|| href.search('/document.xhtml[?]pg=2') > -1) {
 			navId = 'career';
 		} else if (href.search('/contact.xhtml') > -1) {
 			navId = 'contact';

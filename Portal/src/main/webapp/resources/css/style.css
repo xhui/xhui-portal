@@ -193,6 +193,7 @@ h3 {
 .feature-content .feature-content-inner {
 	width: 300px;
 	float: left;
+	cursor: pointer;
 	padding: 0 10px 10px 10px
 }
 
@@ -211,19 +212,6 @@ h3 {
 	padding-bottom: 10px
 }
 
-.feature-content .feature-content-inner .feature-content-text .read-more-wrapper
-	{
-	margin-top: 5px
-}
-
-.feature-content .feature-content-inner .feature-content-text a.read-more
-	{
-	background: url(/resources/images/home-read.png) left center no-repeat;
-	padding: 7px 0;
-	padding-left: 36px;
-	line-height: 31px
-}
-
 .sub-menu>a:FIRST-CHILD .ui-menuitem-text,.sub-menu>span:FIRST-CHILD {
 	padding-left: 20px
 }
@@ -240,6 +228,6 @@ h3 {
 	width: 99% !important;
 }
 
-.docUpdateTime{
+.docUpdateTime {
 	margin: 10px 0px;
 }
