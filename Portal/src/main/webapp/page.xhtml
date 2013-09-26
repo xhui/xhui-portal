@@ -13,7 +13,7 @@
 		<h:form id="contentForm">
 			<p:panel id="contentPanel">
 				<c:forEach items="#{documentListBean.documents}" var="document">
-					<div>
+					<div class="docList">
 						<H3>
 							<h:outputLink
 								value="/document.xhtml?pg=#{pageBean.pageId}&amp;pid=#{document.docId}">
@@ -24,10 +24,11 @@
 							<h:outputText value="#{document.lastUpdate}">
 								<f:convertDateTime pattern="yyyy-MM-dd HH:MM" />
 							</h:outputText>
-							<c:forEach items="#{document.category.parents}" var="category">
-								<h:outputText value="#{category.name} > " />
-							</c:forEach>
-							<h:outputText value="#{document.category.name}" />
+							<SPAN class="category"> <c:forEach
+									items="#{document.category.parents}" var="category">
+									<h:outputText value="#{category.name} > " />
+								</c:forEach> <h:outputText value="#{document.category.name}" />
+							</SPAN>
 						</DIV>
 						<h:outputText value="#{document.docDesc}" />
 						<HR />

@@ -231,3 +231,7 @@ h3 {
 .docUpdateTime {
 	margin: 10px 0px;
 }
+
+.docList .category {
+	margin-left: 30px;
+}

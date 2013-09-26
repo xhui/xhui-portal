@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import com.zan.portal.model.Page;
 
 @Component
-@Scope("application")
+@Scope("prototype")
 public class PagesQueryDAO extends MappingSqlQuery<Page> {
 
 	@Autowired

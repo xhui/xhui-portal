@@ -2,6 +2,7 @@ package com.zan.portal.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class DocCategory implements Serializable {
@@ -76,9 +77,15 @@ public class DocCategory implements Serializable {
 		List<DocCategory> categories = new ArrayList<>();
 		DocCategory c = parentCategory;
 		while (null != c) {
-			c = c.getParentCategory();
 			categories.add(c);
+			c = c.getParentCategory();
 		}
+		Collections.reverse(categories);
 		return categories;
+	}
+
+	@Override
+	public String toString() {
+		return "Category [id=" + categoryId + ", name=" + name + "]";
 	}
 }

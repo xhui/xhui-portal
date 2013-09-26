@@ -47,31 +47,12 @@ public class DocumentService {
 
 	public List<Document> getAllChildDocuments(int categoryId, int pageId) {
 		Map<Integer, DocCategory> target = new HashMap<Integer, DocCategory>();
-		findTotalSubCategories(target,
-				categoryService.getAvailableCategories(pageId));
-		for (Entry<Integer, DocCategory> category : target.entrySet()) {
-			if (categoryId == category.getKey()) {
-				List<Integer> ids = new ArrayList<Integer>();
-				ids.add(categoryId);
-
-				Map<Integer, DocCategory> targetCategory = new HashMap<Integer, DocCategory>();
-				targetCategory.put(categoryId, category.getValue());
-				findTotalSubCategories(targetCategory, category.getValue()
-						.getSubCategories());
-				return queryDao.query(targetCategory);
-			}
+		List<DocCategory> childCategories = categoryService.getChildCategories(
+				pageId, categoryId);
+		for (DocCategory category : childCategories) {
+			target.put(category.getCategoryId(), category);
 		}
-		return new ArrayList<Document>();
-	}
-
-	private void findTotalSubCategories(Map<Integer, DocCategory> target,
-			List<DocCategory> categories) {
-		if (null != categories) {
-			for (DocCategory c : categories) {
-				target.put(c.getCategoryId(), c);
-				findTotalSubCategories(target, c.getSubCategories());
-			}
-		}
+		return queryDao.query(target);
 	}
 
 	public Document queryDocument(int docId) {
