@@ -40,6 +40,16 @@ public class CategoryService {
 		return categoryTree;
 	}
 
+	public DocCategory getCategory(int pageId, int categoryId) {
+		Map<Integer, DocCategory> categories = queryDAO.query(pageId);
+		for (DocCategory category : categories.values()) {
+			if (category.getCategoryId() == categoryId) {
+				return category;
+			}
+		}
+		return null;
+	}
+
 	public List<DocCategory> getChildCategories(int pageId, int categoryId) {
 		List<DocCategory> target = new ArrayList<>();
 		Map<Integer, DocCategory> categories = queryDAO.query(pageId);

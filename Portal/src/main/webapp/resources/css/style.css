@@ -169,7 +169,10 @@ h3 {
 	overflow: hidden;
 	height: 200px
 }
-
+.breadCrumb{
+	background: #f2f5f7;
+	margin-bottom: 10px;
+}
 /* Home Page*/
 .day-tip {
 	background: url(/resources/images/shadow-index.png) bottom center

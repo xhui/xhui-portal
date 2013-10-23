@@ -11,6 +11,15 @@
 	</ui:define>
 	<ui:define name="general_content">
 		<h:form id="contentForm">
+			<c:if test="#{breadCrumbBean.existing}">
+				<p:breadCrumb id='breadCrumb' styleClass="breadCrumb">
+					<p:menuitem value="" url="#" />
+					<c:forEach items="#{breadCrumbBean.categories}"
+						var="breadCrumbCategory">
+						<p:menuitem value="#{breadCrumbCategory.name}" url="#" />
+					</c:forEach>
+				</p:breadCrumb>
+			</c:if>
 			<p:panel id="contentPanel">
 				<c:forEach items="#{documentListBean.documents}" var="document">
 					<div class="docList">

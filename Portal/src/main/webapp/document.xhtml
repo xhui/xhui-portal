@@ -10,6 +10,9 @@
 			src="#{appBean.resourcePath}/js/document.js"></script>
 	</ui:define>
 	<ui:define name="general_content">
+		<p:breadCrumb>
+			<p:menuitem value="#{documentBean.queriedPage.category.name}" url="#" />
+		</p:breadCrumb>
 		<p:panel>
 			<H2>
 				<h:outputText value="#{documentBean.queriedPage.docTitle}" />
