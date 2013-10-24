@@ -24,7 +24,7 @@ import com.zan.portal.model.DocCategory;
 @Scope("prototype")
 public class CategorieQueryDAO {
 
-	private static final String SQL = "select category_id, category_name, parent_category_id from doc_categories WHERE page_id = ? order by page_id ASC, parent_category_id ASC, category_name ASC";
+	private static final String SQL = "select category_id, page_id, category_name, parent_category_id from doc_categories order by page_id ASC, parent_category_id ASC, category_name ASC";
 
 	private JdbcTemplate jdbc;
 
@@ -36,8 +36,8 @@ public class CategorieQueryDAO {
 		categories = new HashMap<>();
 	}
 
-	public Map<Integer, DocCategory> query(final int pageId) {
-		jdbc.query(SQL, new Object[] { pageId }, new RowMapper<DocCategory>() {
+	public Map<Integer, DocCategory> query() {
+		jdbc.query(SQL, new Object[] {}, new RowMapper<DocCategory>() {
 			@Override
 			public DocCategory mapRow(ResultSet rs, int rowNum)
 					throws SQLException {
@@ -45,7 +45,7 @@ public class CategorieQueryDAO {
 				DocCategory c = new DocCategory();
 				c.setCategoryId(categoryId);
 				c.setName(rs.getString("category_name"));
-				c.setPageId(pageId);
+				c.setPageId(rs.getInt("page_id"));
 				// Temporary
 				DocCategory parent = new DocCategory();
 				parent.setCategoryId(rs.getInt("parent_category_id"));

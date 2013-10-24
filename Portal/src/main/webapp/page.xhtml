@@ -12,37 +12,45 @@
 	<ui:define name="general_content">
 		<h:form id="contentForm">
 			<c:if test="#{breadCrumbBean.existing}">
-				<p:breadCrumb id='breadCrumb' styleClass="breadCrumb">
-					<p:menuitem value="" url="#" />
+				<p:breadCrumb id='breadCrumb'>
+					<p:menuitem value="index" url="#" />
 					<c:forEach items="#{breadCrumbBean.categories}"
 						var="breadCrumbCategory">
-						<p:menuitem value="#{breadCrumbCategory.name}" url="#" />
+						<p:menuitem value="#{breadCrumbCategory.name}"
+							url="/page.xhtml?pg=#{breadCrumbCategory.pageId}&amp;cid=#{breadCrumbCategory.categoryId}" />
 					</c:forEach>
 				</p:breadCrumb>
 			</c:if>
 			<p:panel id="contentPanel">
-				<c:forEach items="#{documentListBean.documents}" var="document">
-					<div class="docList">
-						<H3>
-							<h:outputLink
-								value="/document.xhtml?pg=#{pageBean.pageId}&amp;pid=#{document.docId}">
-								<h:outputText value="#{document.docTitle}" />
-							</h:outputLink>
-						</H3>
-						<DIV class="docUpdateTime">
-							<h:outputText value="#{document.lastUpdate}">
-								<f:convertDateTime pattern="yyyy-MM-dd HH:MM" />
-							</h:outputText>
-							<SPAN class="category"> <c:forEach
-									items="#{document.category.parents}" var="category">
-									<h:outputText value="#{category.name} > " />
-								</c:forEach> <h:outputText value="#{document.category.name}" />
-							</SPAN>
-						</DIV>
-						<h:outputText value="#{document.docDesc}" />
-						<HR />
-					</div>
-				</c:forEach>
+				<c:choose>
+					<c:when test="#{documentListBean.documentExisting}">
+						<c:forEach items="#{documentListBean.documents}" var="document">
+							<div class="docList">
+								<H3>
+									<h:outputLink
+										value="/document.xhtml?pg=#{pageBean.pageId}&amp;pid=#{document.docId}">
+										<h:outputText value="#{document.docTitle}" />
+									</h:outputLink>
+								</H3>
+								<DIV class="docUpdateTime">
+									<h:outputText value="#{document.lastUpdate}">
+										<f:convertDateTime pattern="yyyy-MM-dd HH:MM" />
+									</h:outputText>
+									<SPAN class="category"> <c:forEach
+											items="#{document.category.parents}" var="category">
+											<h:outputText value="#{category.name} > " />
+										</c:forEach> <h:outputText value="#{document.category.name}" />
+									</SPAN>
+								</DIV>
+								<h:outputText value="#{document.docDesc}" />
+								<HR />
+							</div>
+						</c:forEach>
+					</c:when>
+					<c:otherwise>
+						No record exists.
+					</c:otherwise>
+				</c:choose>
 			</p:panel>
 		</h:form>
 	</ui:define>

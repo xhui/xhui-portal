@@ -10,9 +10,16 @@
 			src="#{appBean.resourcePath}/js/document.js"></script>
 	</ui:define>
 	<ui:define name="general_content">
-		<p:breadCrumb>
-			<p:menuitem value="#{documentBean.queriedPage.category.name}" url="#" />
-		</p:breadCrumb>
+		<c:if test="#{breadCrumbBean.existing}">
+			<p:breadCrumb id='breadCrumb'>
+				<p:menuitem value="index" url="#" />
+				<c:forEach items="#{breadCrumbBean.categories}"
+					var="breadCrumbCategory">
+					<p:menuitem value="#{breadCrumbCategory.name}"
+						url="/page.xhtml?pg=#{breadCrumbCategory.pageId}&amp;cid=#{breadCrumbCategory.categoryId}" />
+				</c:forEach>
+			</p:breadCrumb>
+		</c:if>
 		<p:panel>
 			<H2>
 				<h:outputText value="#{documentBean.queriedPage.docTitle}" />

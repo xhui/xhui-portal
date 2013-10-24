@@ -169,10 +169,17 @@ h3 {
 	overflow: hidden;
 	height: 200px
 }
-.breadCrumb{
+
+.ui-breadcrumb {
 	background: #f2f5f7;
 	margin-bottom: 10px;
+	border: 1px solid #dddddd;
 }
+
+.ui-breadcrumb ul>li:FIRST-CHILD {
+	display: none;
+}
+
 /* Home Page*/
 .day-tip {
 	background: url(/resources/images/shadow-index.png) bottom center

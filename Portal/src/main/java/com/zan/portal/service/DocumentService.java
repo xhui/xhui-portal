@@ -1,10 +1,8 @@
 package com.zan.portal.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.inject.Inject;
 
@@ -45,10 +43,10 @@ public class DocumentService {
 		return queryDao.query(category);
 	}
 
-	public List<Document> getAllChildDocuments(int categoryId, int pageId) {
+	public List<Document> getAllChildDocuments(int categoryId) {
 		Map<Integer, DocCategory> target = new HashMap<Integer, DocCategory>();
-		List<DocCategory> childCategories = categoryService.getChildCategories(
-				pageId, categoryId);
+		List<DocCategory> childCategories = categoryService
+				.getChildCategories(categoryId);
 		for (DocCategory category : childCategories) {
 			target.put(category.getCategoryId(), category);
 		}
@@ -56,7 +54,10 @@ public class DocumentService {
 	}
 
 	public Document queryDocument(int docId) {
-		return docQueryDao.findObject(docId);
+		Document doc = docQueryDao.findObject(docId);
+		doc.setCategory(categoryService.getCategory(doc.getCategory()
+				.getCategoryId()));
+		return doc;
 	}
 
 	public void deleteDocument(int docId) {

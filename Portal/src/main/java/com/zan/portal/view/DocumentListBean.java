@@ -29,9 +29,8 @@ public class DocumentListBean {
 		Map<String, String> parameters = FacesContext.getCurrentInstance()
 				.getExternalContext().getRequestParameterMap();
 		int cid = ViewUtils.transferInteger(parameters.get("cid"));
-		int pageId = ViewUtils.transferInteger(parameters.get("pg"));
 		if (cid > -1) {
-			documents.addAll(docService.getAllChildDocuments(cid, pageId));
+			documents.addAll(docService.getAllChildDocuments(cid));
 			return;
 		}
 	}
@@ -42,5 +41,9 @@ public class DocumentListBean {
 			documents = new ArrayList<Document>();
 		}
 		return documents;
+	}
+
+	public boolean isDocumentExisting() {
+		return !getDocuments().isEmpty();
 	}
 }

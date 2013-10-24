@@ -28,20 +28,8 @@ public class CategoryService {
 	@Inject
 	private CategoryMaintainDAO updateDAO;
 
-	private List<DocCategory> populateCategoriesTree(int pageId) {
-		List<DocCategory> categoryTree = new ArrayList<>();
-		Map<Integer, DocCategory> categories = queryDAO.query(pageId);
-		for (DocCategory category : categories.values()) {
-			if (null == category.getParentCategory()) {
-				// No parent, so remove parent
-				categoryTree.add(category);
-			}
-		}
-		return categoryTree;
-	}
-
-	public DocCategory getCategory(int pageId, int categoryId) {
-		Map<Integer, DocCategory> categories = queryDAO.query(pageId);
+	public DocCategory getCategory(int categoryId) {
+		Map<Integer, DocCategory> categories = queryDAO.query();
 		for (DocCategory category : categories.values()) {
 			if (category.getCategoryId() == categoryId) {
 				return category;
@@ -50,9 +38,9 @@ public class CategoryService {
 		return null;
 	}
 
-	public List<DocCategory> getChildCategories(int pageId, int categoryId) {
+	public List<DocCategory> getChildCategories(int categoryId) {
 		List<DocCategory> target = new ArrayList<>();
-		Map<Integer, DocCategory> categories = queryDAO.query(pageId);
+		Map<Integer, DocCategory> categories = queryDAO.query();
 		for (DocCategory category : categories.values()) {
 			if (category.getCategoryId() == categoryId) {
 				target.add(category);
@@ -71,7 +59,16 @@ public class CategoryService {
 	}
 
 	public List<DocCategory> getAvailableCategories(int pageId) {
-		return populateCategoriesTree(pageId);
+		List<DocCategory> categoryTree = new ArrayList<>();
+		Map<Integer, DocCategory> categories = queryDAO.query();
+		for (DocCategory category : categories.values()) {
+			if (null == category.getParentCategory()
+					&& pageId == category.getPageId()) {
+				// No parent, so remove parent
+				categoryTree.add(category);
+			}
+		}
+		return categoryTree;
 	}
 
 	public void addNewCategory(DocCategory newly, DocCategory parent)

@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.object.MappingSqlQuery;
 import org.springframework.stereotype.Component;
 
+import com.zan.portal.model.DocCategory;
 import com.zan.portal.model.Document;
 
 @Component
@@ -23,7 +24,7 @@ public class DocumentQueryDAO extends MappingSqlQuery<Document> {
 	public DocumentQueryDAO(DataSource dataSource) {
 		super(
 				dataSource,
-				"select doc_id, doc_title, doc_desc, last_update, content from docs where doc_id = ?");
+				"select doc_id, doc_title, doc_desc, category_id, last_update, content from docs where doc_id = ?");
 		super.declareParameter(new SqlParameter(Types.INTEGER));
 		compile();
 	}
@@ -35,6 +36,9 @@ public class DocumentQueryDAO extends MappingSqlQuery<Document> {
 		d.setDocTitle(rs.getString("doc_title"));
 		d.setDocDesc(rs.getString("doc_desc"));
 		d.setDocContent(rs.getString("content"));
+		DocCategory category = new DocCategory();
+		category.setCategoryId(rs.getInt("category_id"));
+		d.setCategory(category);
 		d.setLastUpdate(new Date(rs.getTimestamp("last_update").getTime()));
 		return d;
 	}
