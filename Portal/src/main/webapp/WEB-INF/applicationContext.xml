@@ -58,15 +58,17 @@
 			<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 			<property name="url" value="jdbc:mysql://127.0.0.1:3306/portal" />
 			<property name="username" value="root" />
-			<property name="password" value="" />
+			<property name="password" value="11235813" />
 		</bean>
 	</beans>
 
 	<beans profile="prod">
 		<bean id="dataSource"
-			class="org.springframework.jdbc.datasource.DriverManagerDataSource"
-			factory-bean="datasourceAdapter" factory-method="buildDataSource"
-			lazy-init="true">
+			class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+			<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+			<property name="url" value="jdbc:mysql://127.0.0.1:3306/portal" />
+			<property name="username" value="root" />
+			<property name="password" value="11235813" />
 		</bean>
 	</beans>
 </beans>

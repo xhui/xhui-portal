@@ -8,8 +8,9 @@
 		<div class="general-wrapper">
 			<div class="g-wrapper-left">
 				<h:form id="leftMenuForm">
-					<p:tieredMenu >
-						<p:menuitem value="Index" />
+					<p:tieredMenu>
+						<p:menuitem value="Index"
+							url="/page.xhtml?pg=#{pageBean.pageId}" />
 						<c:forEach items="#{pageBean.categories}" var="category">
 							<p:separator />
 							<p:menuitem value="#{category.name}"
